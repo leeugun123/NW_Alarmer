@@ -21,12 +21,12 @@ class MondayFragment : Fragment() {
     private val list : ArrayList<WTData> = ArrayList()
     lateinit var recyclerView : RecyclerView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         val binding = FragmentMondayBinding.inflate(layoutInflater)
         mBinding = binding
+
 
         list.add(WTData("박태준","외모지상주의"))
         list.add(WTData("이유건","안드로메다"))
