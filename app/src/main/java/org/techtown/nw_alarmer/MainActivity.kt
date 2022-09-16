@@ -31,9 +31,5 @@ class MainActivity : AppCompatActivity() {
         after_login_tablayout.setupWithViewPager(after_login_viewpager)
 
 
-
-
-
-
     }
 }

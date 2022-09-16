@@ -19,14 +19,19 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
 
         val item = items[position]
 
-        val listener = View.OnClickListener { it ->
+        val listener = View.OnClickListener {
+
+                it ->
             //Toast.makeText(it.context, "Clicked -> ID : ${item.user_id}, Name : ${item.user_name}", Toast.LENGTH_SHORT).show()
+
+
         }
 
         holder.apply {
             bind(listener, item)
             itemView.tag = item
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

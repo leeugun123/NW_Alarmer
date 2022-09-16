@@ -2,8 +2,15 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
+
+        maven { url 'https://www.jitpack.io'}
+
+        maven{
+            url 'https://unity3ddist.jfrog.io/artifactory/unity-mediation-nvn-prod-local/'
+        }
+
         jcenter()
+        mavenCentral()
     }
 
 
@@ -13,10 +20,12 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        mavenCentral()
+        maven { url 'https://www.jitpack.io'}
+        maven{
+            url 'https://unity3ddist.jfrog.io/artifactory/unity-mediation-nvn-prod-local/'
+        }
         jcenter()
-
-        maven { url 'https://jitpack.io'}
+        mavenCentral()
     }
 }
 rootProject.name = "NW_Alarmer"

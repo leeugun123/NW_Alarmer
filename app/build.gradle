@@ -49,4 +49,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
+    //Jsoup 라이브러리
+    implementation 'org.jsoup:jsoup:1.14.2'
+
+    //coroutine
+    // 'org.jetbrains.kotlinx:kotlinx-coroutine-android:1.5.2-native-mt'
+
+
+  
+
+
 }
