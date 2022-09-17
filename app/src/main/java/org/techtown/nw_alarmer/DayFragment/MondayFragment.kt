@@ -89,9 +89,9 @@ class MondayFragment : Fragment() {
 
             for(i : Int in 0..size-1){
 
-                var all = mondayList[0].toString()
+                var All = mondayList[0].toString()
 
-                webToonlist.add(WTData(all))
+                webToonlist.add(WTData(All))
 
             }
 
