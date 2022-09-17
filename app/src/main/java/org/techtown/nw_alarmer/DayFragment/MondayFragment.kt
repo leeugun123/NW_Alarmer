@@ -88,7 +88,11 @@ class MondayFragment : Fragment() {
             val size = mondayList.size
 
             for(i : Int in 0..size-1){
-                webToonlist.add(WTData(mondayList[0].toString()))
+
+                var all = mondayList[0].toString()
+
+                webToonlist.add(WTData(all))
+
             }
 
 
