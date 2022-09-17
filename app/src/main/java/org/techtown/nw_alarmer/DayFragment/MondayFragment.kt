@@ -79,11 +79,13 @@ class MondayFragment : Fragment() {
                 JsoupCrawlerExample.setSSL();
             }//https:로 시작하는경우 setSSL() 실행하여 우회
 
-
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
 
-            Log.e("TAG",doc.html())
+            val primaryWT = doc.select("div.col_inner").select("a.title")
+
+
+            Log.e("TAG",primaryWT.html())
 
 
 
