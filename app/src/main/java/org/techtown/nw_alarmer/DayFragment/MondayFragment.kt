@@ -38,9 +38,9 @@ class MondayFragment : Fragment() {
         doTask()
 
         /*
-        list.add(WTData("박태준","외모지상주의"))
-        list.add(WTData("이유건","안드로메다"))
-        list.add(WTData("김부장","내 딸 내놔!"))
+        webToonlist.add(WTData("외모지상주의"))
+        webToonlist.add(WTData("안드로메다"))
+        webToonlist.add(WTData("내 딸 내놔!"))
         */
 
 
@@ -82,11 +82,18 @@ class MondayFragment : Fragment() {
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
 
-            val primaryWT = doc.select("div.col_inner").select("a.title")
+            val mondayList = doc.select("div.col_inner")[0].select("div.thumb")
+            //월요일꺼 전체 목록 가져오기
+
+            val size = mondayList.size
+
+            for(i : Int in 0..size-1){
+                webToonlist.add(WTData(mondayList[0].toString()))
+            }
 
 
-            Log.e("TAG",primaryWT.html())
 
+            Log.e("TAG",mondayList.html())
 
 
         }//비동기 적용

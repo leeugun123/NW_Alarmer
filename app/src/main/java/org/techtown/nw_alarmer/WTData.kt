@@ -5,5 +5,4 @@ import android.graphics.drawable.Drawable
 data class WTData(
     //var img : Drawable,
     var title : String,
-    var author : String
 )
