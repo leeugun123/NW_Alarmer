@@ -52,8 +52,9 @@ dependencies {
     //Jsoup 라이브러리
     implementation 'org.jsoup:jsoup:1.14.2'
 
-    //coroutine
-    // 'org.jetbrains.kotlinx:kotlinx-coroutine-android:1.5.2-native-mt'
+    //glide 라이브러리
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
   
