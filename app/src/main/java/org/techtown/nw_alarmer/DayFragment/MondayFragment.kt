@@ -82,22 +82,27 @@ class MondayFragment : Fragment() {
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
 
-            val mondayList = doc.select("div.col_inner")[0].select("div.thumb")
+            val mondayList = doc.select("div.col_inner")[0].select("li")
             //월요일꺼 전체 목록 가져오기
 
-            val size = mondayList.size
+            for(e in mondayList){
 
-            for(i : Int in 0..size-1){
+                var wtIntel = e.select("img")//한 웹툰의 정보들
 
-                var All = mondayList[0].toString()
+                for(j in wtIntel){
 
-                webToonlist.add(WTData(All))
+                    var title = j.absUrl("title").replace("https://comic.naver.com/webtoon/","")
+                    Log.e("TAG",title)
+                    webToonlist.add(WTData(title))
+
+                }//웹툰 제목 가져오기
+
+
 
             }
 
 
 
-            Log.e("TAG",mondayList.html())
 
 
         }//비동기 적용
