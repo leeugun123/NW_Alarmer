@@ -17,7 +17,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:background="@drawable/looksim1" />
+            android:src="@drawable/looksim1" />
 
         <LinearLayout
             android:layout_width="fill_parent"

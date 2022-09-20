@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.wt_view.view.*
 import org.techtown.nw_alarmer.databinding.FragmentMondayBinding
 import org.techtown.nw_alarmer.databinding.WtViewBinding
@@ -47,8 +48,15 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
 
        fun bind(listener: View.OnClickListener, item: WTData) {
 
+           Glide.with(itemView.context)
+               .load(item.img)
+               .into(binding.imgUserIcon)
+
+
            binding.webTitle.text = item.title
            //작가 제목
+
+
 
        }
 

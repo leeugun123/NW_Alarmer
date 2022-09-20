@@ -37,11 +37,6 @@ class MondayFragment : Fragment() {
 
         doTask()
 
-        /*
-        webToonlist.add(WTData("외모지상주의"))
-        webToonlist.add(WTData("안드로메다"))
-        webToonlist.add(WTData("내 딸 내놔!"))
-        */
 
 
     }
@@ -89,20 +84,26 @@ class MondayFragment : Fragment() {
 
                 var wtIntel = e.select("img")//한 웹툰의 정보들
 
+                var title = ""
+                var img = ""
+
                 for(j in wtIntel){
 
-                    var title = j.absUrl("title").replace("https://comic.naver.com/webtoon/","")
+                    title = j.absUrl("title").replace("https://comic.naver.com/webtoon/","")
                     Log.e("TAG",title)
-                    webToonlist.add(WTData(title))
 
                 }//웹툰 제목 가져오기
 
+                for(j in wtIntel){
+
+                    img = j.absUrl("src")
+                    Log.e("TAG",img)
+
+                }//웹툰 img 가져오기
 
 
+                webToonlist.add(WTData(img,title))
             }
-
-
-
 
 
         }//비동기 적용
