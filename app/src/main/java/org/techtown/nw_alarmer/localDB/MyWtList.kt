@@ -7,8 +7,7 @@ import org.techtown.nw_alarmer.WTData
 @Entity
 data class MyWtList(
 
-    var wtList : List<WTData>
-
+    var wtList : WTData
 ){
     @PrimaryKey(autoGenerate = true) var id : Int = 0
 }
