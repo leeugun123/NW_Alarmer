@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(FridayFragment(), "금")
         adapter.addFragment(SaturdayFragment(), "토")
         adapter.addFragment(SundayFragment(), "일")
+        adapter.addFragment(MyFragment(),"MY")
 
         after_login_viewpager.adapter = adapter
         after_login_tablayout.setupWithViewPager(after_login_viewpager)
