@@ -78,7 +78,7 @@ class MondayFragment : Fragment() {
             //HTML 가져오기
 
             val mondayList = doc.select("div.col_inner")[0].select("li")
-            //월요일꺼 전체 목록 가져오기
+            //월요일 전체 목록 가져오기
 
             for(e in mondayList){
 
