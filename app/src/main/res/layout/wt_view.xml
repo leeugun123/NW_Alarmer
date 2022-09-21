@@ -36,11 +36,13 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/webAuthor"
-                android:layout_width="match_parent"
+                android:id="@+id/upText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666666"
-                android:textSize="20dp"
+                android:text="UP"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#F44336"
                 />
 
         </LinearLayout>

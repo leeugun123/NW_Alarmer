@@ -100,7 +100,7 @@ class ThursdayFragment : Fragment() {
                 }//웹툰 img 가져오기
 
 
-                webToonlist.add(WTData(img, title))
+                webToonlist.add(WTData(img,title,"up"))
             }
 
 

@@ -56,11 +56,11 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
            binding.webTitle.text = item.title
            //작가 제목
 
+           binding.upText.text = item.up
+
            itemView.setOnClickListener {
 
                Toast.makeText(context,item.title,Toast.LENGTH_SHORT).show()
-
-
 
            }
 
