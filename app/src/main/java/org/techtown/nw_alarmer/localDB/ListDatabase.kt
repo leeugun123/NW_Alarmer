@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [MyWtList::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
@@ -31,6 +31,7 @@ abstract class ListDatabase : RoomDatabase() {
                         "list-database"
                     )
                         .allowMainThreadQueries()//메인 쓰레드에서 작동 허용
+                        .fallbackToDestructiveMigration()//기존 데이터를 버리고 다음 버전으로 넘어감
                         .build()
                 }
 

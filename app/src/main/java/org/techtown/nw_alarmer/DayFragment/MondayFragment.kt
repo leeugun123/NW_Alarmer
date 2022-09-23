@@ -17,6 +17,7 @@ import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.RecyclerWtAdapter
 import org.techtown.nw_alarmer.WTData
 import org.techtown.nw_alarmer.databinding.FragmentMondayBinding
+import org.techtown.nw_alarmer.localDB.ListDatabase
 
 class MondayFragment : Fragment() {
 
@@ -35,8 +36,6 @@ class MondayFragment : Fragment() {
         mBinding = binding
 
         doTask()
-
-
 
     }
 

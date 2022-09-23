@@ -42,6 +42,7 @@ class SundayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val rootView = inflater.inflate(R.layout.fragment_sunday,container,false)
 
         recyclerView = rootView.findViewById(R.id.lstUser) as RecyclerView

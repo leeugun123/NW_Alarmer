@@ -4,14 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.techtown.nw_alarmer.RecyclerWtAdapter
-import org.techtown.nw_alarmer.WTData
 import org.techtown.nw_alarmer.databinding.WtViewBinding
 
-class MyWtListRecycler (private val items: ArrayList<MyWtList>, val context : Context): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
+class MyWtListRecycler (private val items : MutableList<MyWtList>,val context: Context): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
 
     override fun getItemCount(): Int = items.size
 
@@ -47,15 +44,13 @@ class MyWtListRecycler (private val items: ArrayList<MyWtList>, val context : Co
                 .load(item.wtImg)
                 .into(binding.imgUserIcon)
 
-
             binding.webTitle.text = item.wtTitle
             //작가 제목
 
             binding.upText.text = item.upImg
+            //업 이미지
 
             itemView.setOnClickListener {
-
-                Toast.makeText(context,item.wtTitle, Toast.LENGTH_SHORT).show()
 
             }
 

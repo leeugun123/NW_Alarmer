@@ -11,10 +11,17 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.wt_view.view.*
 import org.techtown.nw_alarmer.databinding.FragmentMondayBinding
 import org.techtown.nw_alarmer.databinding.WtViewBinding
+import org.techtown.nw_alarmer.localDB.ListDatabase
+import org.techtown.nw_alarmer.localDB.MyWtList
+import org.techtown.nw_alarmer.localDB.MyWtListRecycler
 
 class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Context) : RecyclerView.Adapter<RecyclerWtAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
+
+    private val myWebToonlist = mutableListOf<MyWtList>()
+    var db : ListDatabase? = null//myList DB
+    val myAdapter = MyWtListRecycler(myWebToonlist,context)
 
     override fun onBindViewHolder(holder: RecyclerWtAdapter.ViewHolder, position: Int) {
 
@@ -61,6 +68,12 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
            itemView.setOnClickListener {
 
                Toast.makeText(context,item.title,Toast.LENGTH_SHORT).show()
+
+               var myWebList = MyWtList(item.title,item.title,item.up)
+               db?.wtListDao()?.insertList(myWebList)//DB에추가
+              // myWebToonlist.add(myWebList)//리스트 추가
+
+               myAdapter.notifyDataSetChanged()//리사이클러뷰 갱신
 
            }
 

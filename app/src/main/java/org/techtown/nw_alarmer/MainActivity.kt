@@ -2,10 +2,10 @@ package org.techtown.nw_alarmer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.techtown.nw_alarmer.DayFragment.*
 import org.techtown.nw_alarmer.databinding.ActivityMainBinding
+import org.techtown.nw_alarmer.localDB.MyFragment
 
 class MainActivity : AppCompatActivity() {
 
