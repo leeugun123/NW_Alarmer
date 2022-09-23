@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.nw_alarmer.databinding.FragmentMyBinding
+import org.techtown.nw_alarmer.localDB.MyWtList
+import org.techtown.nw_alarmer.localDB.MyWtListRecycler
 
 
 class MyFragment : Fragment() {
 
     private var mBinding : FragmentMyBinding? = null
 
-    private val webToonlist : ArrayList<WTData> = ArrayList()
+    private val myWebToonlist : ArrayList<MyWtList> = ArrayList()
     lateinit var recyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +36,7 @@ class MyFragment : Fragment() {
 
         recyclerView = rootView.findViewById(R.id.lstUser) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = RecyclerWtAdapter(webToonlist,requireContext())
+        recyclerView.adapter = MyWtListRecycler(myWebToonlist,requireContext())
 
         return rootView
     }

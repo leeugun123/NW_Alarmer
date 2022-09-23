@@ -29,7 +29,9 @@ abstract class ListDatabase : RoomDatabase() {
                         context.applicationContext,
                         ListDatabase::class.java,
                         "list-database"
-                    ).build()
+                    )
+                        .allowMainThreadQueries()//메인 쓰레드에서 작동 허용
+                        .build()
                 }
 
             }
