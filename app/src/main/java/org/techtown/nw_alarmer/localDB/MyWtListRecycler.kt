@@ -8,22 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.techtown.nw_alarmer.databinding.WtViewBinding
 
-class MyWtListRecycler (private val items : MutableList<MyWtList>,val context: Context): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
+class MyWtListRecycler (val context: Context): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
+
+    private val items = ArrayList<MyWtList>()
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: MyWtListRecycler.ViewHolder, position: Int) {
 
-        val item = items[position]
-
-        val listener = View.OnClickListener {
-
-        }
-
-        holder.apply {
-            bind(listener, item)
-            itemView.tag = item
-        }
+        holder.bind(items[position])
 
     }
 
@@ -38,23 +31,25 @@ class MyWtListRecycler (private val items : MutableList<MyWtList>,val context: C
     //  각 항목에 필요한 기능을 구현
     inner class ViewHolder(private val binding : WtViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(listener: View.OnClickListener, item: MyWtList) {
+        fun bind(item : MyWtList?) {
 
             Glide.with(itemView.context)
-                .load(item.wtImg)
+                .load(item?.wtImg)
                 .into(binding.imgUserIcon)
 
-            binding.webTitle.text = item.wtTitle
+            if (item != null) {
+                binding.webTitle.text = item.wtTitle
+            }
             //작가 제목
 
-            binding.upText.text = item.upImg
+            if (item != null) {
+                binding.upText.text = "df"
+            }
             //업 이미지
 
             itemView.setOnClickListener {
 
             }
-
-
 
         }
 

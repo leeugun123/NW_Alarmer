@@ -14,12 +14,7 @@ import org.techtown.nw_alarmer.databinding.FragmentMyBinding
 class MyFragment : Fragment() {
 
     private var mBinding : FragmentMyBinding? = null
-
-    private val myWebToonlist = mutableListOf<MyWtList>()
-
     lateinit var recyclerView : RecyclerView
-
-    var db : ListDatabase? = null//myList DB
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,11 +22,8 @@ class MyFragment : Fragment() {
         val binding = FragmentMyBinding.inflate(layoutInflater)
         mBinding = binding
 
-        db = context?.let { ListDatabase.getInstance(it) }
 
-        //요일 프래그먼트에서 불러온 리스트 업데이트
-        val savedList = db!!.wtListDao().getList()
-        myWebToonlist.addAll(listOf(savedList))
+
 
     }
 
@@ -46,6 +38,7 @@ class MyFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         recyclerView.adapter = MyWtListRecycler(myWebToonlist,requireContext())
+
 
         return rootView
     }

@@ -29,10 +29,6 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
 
         val listener = View.OnClickListener {
 
-                it ->
-            //Toast.makeText(it.context, "Clicked -> ID : ${item.user_id}, Name : ${item.user_name}", Toast.LENGTH_SHORT).show()
-
-
         }
 
         holder.apply {
@@ -63,17 +59,21 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
            binding.webTitle.text = item.title
            //작가 제목
 
-           binding.upText.text = item.up
+           binding.upText.text = "d"
 
            itemView.setOnClickListener {
 
                Toast.makeText(context,item.title,Toast.LENGTH_SHORT).show()
 
+
+               /*
                var myWebList = MyWtList(item.title,item.title,item.up)
                db?.wtListDao()?.insertList(myWebList)//DB에추가
-              // myWebToonlist.add(myWebList)//리스트 추가
+               myWebToonlist.add(myWebList)//리스트 추가
 
                myAdapter.notifyDataSetChanged()//리사이클러뷰 갱신
+               */
+
 
            }
 
