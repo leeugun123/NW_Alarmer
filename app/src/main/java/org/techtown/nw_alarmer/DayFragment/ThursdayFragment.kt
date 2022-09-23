@@ -15,9 +15,7 @@ import org.techtown.nw_alarmer.JsoupCrawlerExample
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.RecyclerWtAdapter
 import org.techtown.nw_alarmer.WTData
-import org.techtown.nw_alarmer.databinding.FragmentMondayBinding
 import org.techtown.nw_alarmer.databinding.FragmentThursdayBinding
-import org.techtown.nw_alarmer.databinding.FragmentWednesdayBinding
 
 
 class ThursdayFragment : Fragment() {

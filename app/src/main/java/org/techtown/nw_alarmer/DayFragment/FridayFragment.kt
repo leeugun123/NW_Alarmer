@@ -16,7 +16,6 @@ import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.RecyclerWtAdapter
 import org.techtown.nw_alarmer.WTData
 import org.techtown.nw_alarmer.databinding.FragmentFridayBinding
-import org.techtown.nw_alarmer.databinding.FragmentMondayBinding
 
 
 class FridayFragment : Fragment() {

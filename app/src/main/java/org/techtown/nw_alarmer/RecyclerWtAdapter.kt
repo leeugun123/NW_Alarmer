@@ -68,7 +68,7 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
 
        }
 
-
-
    }
+
+
 }
