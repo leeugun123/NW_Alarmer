@@ -37,7 +37,7 @@ class MyFragment : Fragment() {
         recyclerView = rootView.findViewById(R.id.lstUser) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        recyclerView.adapter = MyWtListRecycler(myWebToonlist,requireContext())
+        recyclerView.adapter = MyWtListRecycler(requireContext())
 
 
         return rootView
