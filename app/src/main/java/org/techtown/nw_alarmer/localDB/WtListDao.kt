@@ -15,7 +15,7 @@ interface WtListDao {
     //가져오기
 
     @Query("DELETE From MyWtList")
-    fun deleteList()
+    fun deleteList(list : MyWtList)
     //삭제
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
