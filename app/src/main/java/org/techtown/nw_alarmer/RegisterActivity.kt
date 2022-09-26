@@ -1,6 +1,7 @@
 package org.techtown.nw_alarmer
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +41,7 @@ class RegisterActivity : AppCompatActivity() {
 
             lifecycleScope.launch(Dispatchers.IO){
                 model?.insert(MyWtList(title,img,"up"))
+                Log.e("TAG","등록됨")
             }//비동기로 구현
 
             finish()

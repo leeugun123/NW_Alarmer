@@ -87,14 +87,14 @@ class SaturdayFragment : Fragment() {
                 for (j in wtIntel) {
 
                     title = j.absUrl("title").replace("https://comic.naver.com/webtoon/", "")
-                    Log.e("TAG", title)
+                  //  Log.e("TAG", title)
 
                 }//웹툰 제목 가져오기
 
                 for (j in wtIntel) {
 
                     img = j.absUrl("src")
-                    Log.e("TAG", img)
+                    //Log.e("TAG", img)
 
                 }//웹툰 img 가져오기
 

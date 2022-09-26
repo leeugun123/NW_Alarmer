@@ -7,20 +7,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".localDB.MyFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lstUser"
+            android:id="@+id/mylistView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical"
+            tools:listitem="@layout/wt_view"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
 
-    </LinearLayout>
 
 
 

@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.techtown.nw_alarmer.databinding.WtViewBinding
 
-class MyWtListRecycler (val context: Context): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
+class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
 
     private val items = ArrayList<MyWtList>()
+    private val mCallback = listener
 
     override fun getItemCount(): Int = items.size
 
@@ -26,6 +27,11 @@ class MyWtListRecycler (val context: Context): RecyclerView.Adapter<MyWtListRecy
 
         return ViewHolder(binding)
 
+    }
+
+    fun setList(list : List<MyWtList>){
+        items.clear()
+        items.addAll(list)
     }
 
     //  각 항목에 필요한 기능을 구현
