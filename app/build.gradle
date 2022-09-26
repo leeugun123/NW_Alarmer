@@ -33,10 +33,14 @@ android {
     }
     buildFeatures {
         dataBinding = true
-    }
+    }//데이터 바인딩
     viewBinding{
         enabled = true
-    }
+    }//뷰바인딩
+
+    androidExtensions {
+        experimental true
+    }//Parcelize 사용
 }
 
 dependencies {
@@ -66,5 +70,10 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-guava:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
+
+    //Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
 
 }

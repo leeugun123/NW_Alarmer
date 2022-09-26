@@ -43,13 +43,15 @@ class MyWtListRecycler (val context: Context): RecyclerView.Adapter<MyWtListRecy
             //작가 제목
 
             if (item != null) {
-                binding.upText.text = "df"
+                binding.upText.text = "UP"
             }
             //업 이미지
 
             itemView.setOnClickListener {
 
-            }
+            }//클릭시 이벤트
+
+
 
         }
 

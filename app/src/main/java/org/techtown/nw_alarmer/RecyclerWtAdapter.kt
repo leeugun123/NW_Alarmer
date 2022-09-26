@@ -1,6 +1,7 @@
 package org.techtown.nw_alarmer
 
 import android.content.Context
+import android.content.Intent
 import android.service.autofill.UserData
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +15,11 @@ import org.techtown.nw_alarmer.databinding.WtViewBinding
 import org.techtown.nw_alarmer.localDB.ListDatabase
 import org.techtown.nw_alarmer.localDB.MyWtList
 import org.techtown.nw_alarmer.localDB.MyWtListRecycler
+import org.techtown.nw_alarmer.localDB.WTViewModel
 
 class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Context) : RecyclerView.Adapter<RecyclerWtAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
-
-    private val myWebToonlist = mutableListOf<MyWtList>()
-    var db : ListDatabase? = null//myList DB
-    val myAdapter = MyWtListRecycler(myWebToonlist,context)
 
     override fun onBindViewHolder(holder: RecyclerWtAdapter.ViewHolder, position: Int) {
 
@@ -59,20 +57,17 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
            binding.webTitle.text = item.title
            //작가 제목
 
-           binding.upText.text = "d"
+           binding.upText.text = "up"
 
            itemView.setOnClickListener {
 
-               Toast.makeText(context,item.title,Toast.LENGTH_SHORT).show()
+              val wtIntent = Intent(context,RegisterActivity::class.java)
+              wtIntent.putExtra("title",item.title)//웹툰 제목
+              wtIntent.putExtra("img",item.img) //웹툰 사진
 
-
-               /*
-               var myWebList = MyWtList(item.title,item.title,item.up)
-               db?.wtListDao()?.insertList(myWebList)//DB에추가
-               myWebToonlist.add(myWebList)//리스트 추가
-
-               myAdapter.notifyDataSetChanged()//리사이클러뷰 갱신
-               */
+              wtIntent.run {
+                  context.startActivity(this)
+              } //액티비티로 넘어감
 
 
            }

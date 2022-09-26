@@ -14,9 +14,11 @@ interface WtListDao {
     fun getList() : LiveData<List<MyWtList>>
     //가져오기
 
+    /*
     @Query("DELETE From MyWtList")
     fun deleteList(list : MyWtList)
     //삭제
+    */
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(myWtList: MyWtList)

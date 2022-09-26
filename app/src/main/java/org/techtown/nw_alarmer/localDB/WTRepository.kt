@@ -26,10 +26,12 @@ class WTRepository (application: Application){
         return wtlistDao.getList()
     }
 
-
+    /*
      fun delete(list : MyWtList) {
          wtlistDao.deleteList(list)
      }
+
+     */
       //삭제 기능 나중에 구현해야함.
 
 
