@@ -13,12 +13,16 @@ import org.techtown.nw_alarmer.databinding.ActivityRegisterBinding
 import org.techtown.nw_alarmer.localDB.MyWtList
 import org.techtown.nw_alarmer.localDB.MyWtListRecycler
 import org.techtown.nw_alarmer.localDB.WTViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityRegisterBinding
 
-    private lateinit var model : WTViewModel
+    lateinit var model : WTViewModel
 
     private lateinit var adapter : MyWtListRecycler
 
@@ -37,7 +41,6 @@ class RegisterActivity : AppCompatActivity() {
         Glide.with(this)
             .load(img)
             .into(binding.webImg)
-
 
 
 

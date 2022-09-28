@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
-class WTViewModel (application: Application) : ViewModel(){
+class WTViewModel (application: Application) : AndroidViewModel(application){
 
     private val repository = WTRepository(application)
     private val wtLists = repository.getAll()

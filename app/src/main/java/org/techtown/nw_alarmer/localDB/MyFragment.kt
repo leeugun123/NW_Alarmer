@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.localDB
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -34,22 +35,12 @@ class MyFragment : Fragment(), OnItemClick {
         val binding = FragmentMyBinding.inflate(layoutInflater)
         mBinding = binding
 
-        model = ViewModelProvider(this).get(WTViewModel::class.java)
-
         initRecyclerView()
 
+        model = ViewModelProvider(this).get(WTViewModel::class.java)
+        //model 초기화 부분에 의해 초기화 되지 않았음
 
-        //등록은 되는데 fragment에서 전혀 인지를 하지 못하고 있음
-        model.getAll().observe(this, Observer<List<MyWtList>> {
 
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-
-            Log.e("TAG","실행은 되는데...??ㄹㄷㄷㄷㄷㄻㅈㄷㄹㅈㅁㄹㄷㅈㅁㄻㅈㄻㅈㄹㅈㅁㄹㅈㅁㄷㄹㅈㄷㅁㄹ")
-
-        })
-
-        //Log.e("TAG",model.toString())
 
     }
 
@@ -62,10 +53,28 @@ class MyFragment : Fragment(), OnItemClick {
     }
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        with(model) {
+            getAll().observe(viewLifecycleOwner, Observer<List<MyWtList>> {
+
+                adapter.setList(it)
+                adapter.notifyDataSetChanged()
+
+                Log.e("TAG","실행은 되는데...??ㄹㄷㄷㄷㄷㄻㅈㄷㄹㅈㅁㄹㄷㅈㅁㄻㅈㄻㅈㄹㅈㅁㄹㅈㅁㄷㄹㅈㄷㅁㄹ")
+
+            })
+        }
+
+
+        //등록은 되는데 fragment에서 전혀 인지를 하지 못하고 있음
+
+
 
        return mBinding?.root
     }
