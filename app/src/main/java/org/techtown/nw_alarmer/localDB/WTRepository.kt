@@ -16,6 +16,8 @@ class WTRepository (application: Application){
         wtlistDao = db!!.wtListDao()
         wtList = db.wtListDao().getList()
 
+
+
     }
 
     fun insert(list : MyWtList){

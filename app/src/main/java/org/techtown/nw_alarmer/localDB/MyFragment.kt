@@ -26,7 +26,7 @@ class MyFragment : Fragment(), OnItemClick {
     private var mBinding : FragmentMyBinding? = null
 
     private lateinit var adapter : MyWtListRecycler
-    private var model : WTViewModel? = null
+    private lateinit var model : WTViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,11 +34,13 @@ class MyFragment : Fragment(), OnItemClick {
         val binding = FragmentMyBinding.inflate(layoutInflater)
         mBinding = binding
 
+        model = ViewModelProvider(this).get(WTViewModel::class.java)
+
         initRecyclerView()
 
 
         //등록은 되는데 fragment에서 전혀 인지를 하지 못하고 있음
-        model?.getAll()?.observe(this, Observer<List<MyWtList>> {
+        model.getAll().observe(this, Observer<List<MyWtList>> {
 
             adapter.setList(it)
             adapter.notifyDataSetChanged()

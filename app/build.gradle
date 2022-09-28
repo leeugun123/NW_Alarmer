@@ -71,9 +71,18 @@ dependencies {
     implementation "androidx.room:room-guava:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
-    //Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
+    //뷰모델 - 라이프사이클 관련
+    def lifecycle_version = "2.6.0-alpha01"
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
+
+    // 라이브 데이타 - 옵저버 패턴 관련 - 즉 데이터의 변경 사항을 알 수 있음.
+    implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+
+
+
 
 
 }

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [MyWtList::class],
     version = 2,
-    exportSchema = false
+    exportSchema = true
 )
 
 abstract class ListDatabase : RoomDatabase() {
