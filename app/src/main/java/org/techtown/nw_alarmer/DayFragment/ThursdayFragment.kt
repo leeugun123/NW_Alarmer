@@ -95,6 +95,7 @@ class ThursdayFragment : Fragment() {
                     img = j.absUrl("src")
                    // Log.e("TAG", img)
 
+
                 }//웹툰 img 가져오기
 
 

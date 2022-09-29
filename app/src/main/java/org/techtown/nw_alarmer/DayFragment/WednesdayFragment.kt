@@ -74,10 +74,10 @@ class WednesdayFragment : Fragment() {
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
 
-            val mondayList = doc.select("div.col_inner")[2].select("li")
+            val wednesdayList = doc.select("div.col_inner")[2].select("li")
             //화요일 전체 목록 가져오기
 
-            for (e in mondayList) {
+            for (e in wednesdayList) {
 
                 var wtIntel = e.select("img")//한 웹툰의 정보들
 
