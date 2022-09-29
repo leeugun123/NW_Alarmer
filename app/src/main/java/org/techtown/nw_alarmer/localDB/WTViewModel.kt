@@ -1,9 +1,7 @@
 package org.techtown.nw_alarmer.localDB
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 
 class WTViewModel (application: Application) : AndroidViewModel(application){
 
@@ -18,10 +16,14 @@ class WTViewModel (application: Application) : AndroidViewModel(application){
         repository.insert(myList)
     }
 
-   /*
-    fun delete(myList : MyWtList){
-        repository.delete(myList)
+    /*
+    override fun getLifecycle(): Lifecycle {
+        TODO("Not yet implemented")
     }
-    */
+
+     fun delete(myList : MyWtList){
+         repository.delete(myList)
+     }
+     */
 
 }

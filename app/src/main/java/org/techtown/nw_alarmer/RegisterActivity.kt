@@ -43,7 +43,6 @@ class RegisterActivity : AppCompatActivity() {
             .into(binding.webImg)
 
 
-
         binding.registerButton.setOnClickListener {
 
             Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
