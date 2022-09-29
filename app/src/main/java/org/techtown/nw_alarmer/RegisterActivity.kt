@@ -35,6 +35,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val title = intent.getStringExtra("title")
         val img = intent.getStringExtra("img")
+        val up = intent.getStringExtra("upState")
 
         binding.webTitle.text = title
 
@@ -49,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
             lifecycleScope.launch(Dispatchers.IO){
-                model.insert(MyWtList(title,img,"up"))
+                model.insert(MyWtList(title,img,up))
                 Log.e("TAG","등록됨")
             }//비동기로 구현
 

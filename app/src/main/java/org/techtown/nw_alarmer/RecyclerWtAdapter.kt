@@ -64,6 +64,7 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
               val wtIntent = Intent(context,RegisterActivity::class.java)
               wtIntent.putExtra("title",item.title)//웹툰 제목
               wtIntent.putExtra("img",item.img) //웹툰 사진
+              wtIntent.putExtra("upState",item.up)//웹툰 업데이트 상태
 
               wtIntent.run {
                   context.startActivity(this)
