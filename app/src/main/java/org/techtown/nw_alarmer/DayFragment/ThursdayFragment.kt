@@ -82,6 +82,10 @@ class ThursdayFragment : Fragment() {
 
                 var title = ""
                 var img = ""
+                var up = ""
+
+                var upIntel = e.select("em")
+                //업데이트 정보
 
                 for (j in wtIntel) {
 
@@ -95,11 +99,21 @@ class ThursdayFragment : Fragment() {
                     img = j.absUrl("src")
                    // Log.e("TAG", img)
 
-
                 }//웹툰 img 가져오기
 
+                for(j in upIntel){
+                    up = j.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
+                }//웹툰 up 정보 가져오기
 
-                webToonlist.add(WTData(img,title,"up"))
+                if(up.equals("ico_updt"))
+                    up = "Up"
+                else if(up.equals("ico_break"))
+                    up = "휴재"
+
+
+
+                webToonlist.add(WTData(img,title,up))
+
             }
 
 
