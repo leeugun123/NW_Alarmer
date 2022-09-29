@@ -1,10 +1,7 @@
 package org.techtown.nw_alarmer.localDB
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import org.techtown.nw_alarmer.WTData
 
 @Dao
@@ -14,11 +11,9 @@ interface WtListDao {
     fun getList() : LiveData<List<MyWtList>>
     //가져오기
 
-    /*
-    @Query("DELETE From MyWtList")
+    @Delete
     fun deleteList(list : MyWtList)
     //삭제
-    */
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(myWtList: MyWtList)

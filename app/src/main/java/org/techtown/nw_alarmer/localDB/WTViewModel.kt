@@ -16,14 +16,9 @@ class WTViewModel (application: Application) : AndroidViewModel(application){
         repository.insert(myList)
     }
 
-    /*
-    override fun getLifecycle(): Lifecycle {
-        TODO("Not yet implemented")
+    fun delete(myList : MyWtList){
+        repository.delete(myList)
     }
 
-     fun delete(myList : MyWtList){
-         repository.delete(myList)
-     }
-     */
 
 }

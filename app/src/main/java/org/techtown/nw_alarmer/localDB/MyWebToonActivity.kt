@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.techtown.nw_alarmer.databinding.ActivityMyWebToonBinding
 
 class MyWebToonActivity : AppCompatActivity() , OnItemClick {
@@ -51,7 +54,9 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
     }
 
     override fun deleteList(list: MyWtList) {
-        TODO("Not yet implemented")
+            lifecycleScope.launch(Dispatchers.IO){
+                model.delete(list)
+            }
     }
 
 }
