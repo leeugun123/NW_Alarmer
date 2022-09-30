@@ -37,8 +37,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MyWebToonActivity::class.java)
             startActivity(intent)
 
-        }
+        }//myWebToon 리스트 호출
+
+
 
 
     }
+
 }

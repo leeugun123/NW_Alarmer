@@ -14,39 +14,75 @@ import org.techtown.nw_alarmer.localDB.MyWtList
 import org.techtown.nw_alarmer.localDB.MyWtListRecycler
 import org.techtown.nw_alarmer.localDB.WTViewModel
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_HIGH
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_ONE_SHOT
+import android.app.PendingIntent.getActivity
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import org.techtown.nw_alarmer.Constants.CHANNEL_ID
+import org.techtown.nw_alarmer.Constants.CHANNEL_NAME
+import kotlin.random.Random
 
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityRegisterBinding
+    private lateinit var mBinding : ActivityRegisterBinding
 
     lateinit var model : WTViewModel
 
-    private lateinit var adapter : MyWtListRecycler
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mBinding  = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(mBinding .root)
 
         model = ViewModelProvider(this).get(WTViewModel::class.java)
 
         val title = intent.getStringExtra("title")
         val img = intent.getStringExtra("img")
-        val up = intent.getStringExtra("upState")
+        //val up = intent.getStringExtra("upState")
 
-        binding.webTitle.text = title
+        mBinding .webTitle.text = title
 
         Glide.with(this)
             .load(img)
-            .into(binding.webImg)
+            .into(mBinding .webImg)
 
 
-        binding.registerButton.setOnClickListener {
+        mBinding .registerButton.setOnClickListener {
 
             Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
+
+
+
+            //알람 구현
+            val intent = Intent(this,MainActivity::class.java)
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationID = Random.nextInt()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel(notificationManager)
+            }
+
+
+            val pendingIntent = getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText("웹툰이 업데이트 됐습니다.")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build()
+
+            notificationManager.notify(notificationID, notification)
 
 
             lifecycleScope.launch(Dispatchers.IO){
@@ -59,4 +95,17 @@ class RegisterActivity : AppCompatActivity() {
 
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(notificationManager: NotificationManager) {
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_HIGH).apply {
+            description = "Channel Description"
+            enableLights(true)
+            lightColor = Color.GREEN
+        }
+        notificationManager.createNotificationChannel(channel)
+    }
+
+
+
 }

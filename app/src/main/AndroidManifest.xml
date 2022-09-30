@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <!--    알람 권한 설정 -->
 
     <application
         android:allowBackup="true"
@@ -31,6 +33,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+
+        <service
+            android:name=".PushAlarm.MyFirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        FCM 알림 수신
+        -->
+    <!--    <receiver android:name=".PushAlarm.AlertReceiver"/>-->
+    <!--   알람 receiver 등록-->
+
     </application>
+
+
 
 </manifest>
