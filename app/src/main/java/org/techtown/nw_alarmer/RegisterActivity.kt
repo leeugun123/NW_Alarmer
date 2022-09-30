@@ -50,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
             lifecycleScope.launch(Dispatchers.IO){
-                model.insert(MyWtList(title,img,up))
+                model.insert(MyWtList(title,img))
                 Log.e("TAG","등록됨")
             }//비동기로 구현
 

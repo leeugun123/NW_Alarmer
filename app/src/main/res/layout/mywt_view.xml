@@ -43,15 +43,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/upText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#F44336"
-                    />
 
                 <Button
                     android:id="@+id/deleteButton"

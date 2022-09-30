@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [MyWtList::class],
-    version = 2,
+    version = 3,//속성 변경(up 화면 제거)
     exportSchema = true
 )
 
