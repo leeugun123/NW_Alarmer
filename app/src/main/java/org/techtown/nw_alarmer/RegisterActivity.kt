@@ -57,10 +57,9 @@ class RegisterActivity : AppCompatActivity() {
             .into(mBinding .webImg)
 
 
-        mBinding .registerButton.setOnClickListener {
+        mBinding.registerButton.setOnClickListener {
 
             Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
-
 
 
             //알람 구현
@@ -76,14 +75,13 @@ class RegisterActivity : AppCompatActivity() {
             val pendingIntent = getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(title)
-                .setContentText("웹툰이 업데이트 됐습니다.")
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentText("웹툰이 등록되었습니다.")
                 .setAutoCancel(true)
+                .setSmallIcon(R.drawable.alarm)
                 .setContentIntent(pendingIntent)
                 .build()
 
             notificationManager.notify(notificationID, notification)
-
 
             lifecycleScope.launch(Dispatchers.IO){
                 model.insert(MyWtList(title,img))

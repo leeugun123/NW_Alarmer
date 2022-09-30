@@ -1,21 +1,29 @@
 package org.techtown.nw_alarmer.DayFragment
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
-import org.techtown.nw_alarmer.JsoupCrawlerExample
-import org.techtown.nw_alarmer.R
-import org.techtown.nw_alarmer.RecyclerWtAdapter
-import org.techtown.nw_alarmer.WTData
+import org.techtown.nw_alarmer.*
 import org.techtown.nw_alarmer.databinding.FragmentFridayBinding
+import kotlin.random.Random
 
 
 class FridayFragment : Fragment() {
@@ -105,8 +113,12 @@ class FridayFragment : Fragment() {
                     up = j.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
                 }//웹툰 up 정보 가져오기
 
-                if(up.equals("ico_updt"))
+                if(up.equals("ico_updt")){
+
+
                     up = "Up"
+                }
+
                 else if(up.equals("ico_break"))
                     up = "휴재"
 
@@ -117,6 +129,16 @@ class FridayFragment : Fragment() {
 
         }//비동기 적용
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(notificationManager: NotificationManager) {
+        val channel = NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
+            description = "Channel Description"
+            enableLights(true)
+            lightColor = Color.GREEN
+        }
+        notificationManager.createNotificationChannel(channel)
     }
 
 }

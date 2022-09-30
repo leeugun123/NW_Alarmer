@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
@@ -43,13 +42,35 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-
-                <Button
-                    android:id="@+id/deleteButton"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="삭제"
-                    />
+                    android:orientation="horizontal"
+                    >
+
+                    <Button
+                        android:id="@+id/deleteButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="삭제" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/alarmButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:background="@drawable/alarm"
+                        />
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
