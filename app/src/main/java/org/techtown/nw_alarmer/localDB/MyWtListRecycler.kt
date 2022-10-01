@@ -63,6 +63,8 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
             }
             //작가 제목
 
+
+
             /*
             if (item != null) {
                 binding.upText.text = item.upImg

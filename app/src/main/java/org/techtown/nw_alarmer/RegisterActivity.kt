@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.AndroidViewModel
@@ -59,36 +60,67 @@ class RegisterActivity : AppCompatActivity() {
 
         mBinding.registerButton.setOnClickListener {
 
-            Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
 
 
-            //알람 구현
-            val intent = Intent(this,MainActivity::class.java)
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notificationID = Random.nextInt()
+                var exist : Boolean = false
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel(notificationManager)
-            }
+                //등록하고자 하는 데이터가 roomDB에 있는지 조회
+                model.getAll().observe(this@RegisterActivity) { list ->
+
+                    for(i: Int in 0..list.size-1){
+                        if(list.get(i).wtTitle.equals(title)) {
+                            Log.e("TAG", "이미 있는 웹툰입니다.!!")
+                            exist = true
+                            break
+                        }
+                    }
+
+                }
 
 
-            val pendingIntent = getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-            val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText("웹툰이 등록되었습니다.")
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.alarm)
-                .setContentIntent(pendingIntent)
-                .build()
+            //deprecated 되어 있다고 나옴
+            Handler().postDelayed({
 
-            notificationManager.notify(notificationID, notification)
+                if(!exist){
 
-            lifecycleScope.launch(Dispatchers.IO){
-                model.insert(MyWtList(title,img))
-                Log.e("TAG","등록됨")
-            }//비동기로 구현
+                    Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
 
-            finish()
+                    //알람 구현
+                    val intent = Intent(this,MainActivity::class.java)
+                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    val notificationID = Random.nextInt()
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        createNotificationChannel(notificationManager)
+                    }
+
+
+                    val pendingIntent = getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+                    val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setContentTitle(title)
+                        .setContentText("웹툰이 등록되었습니다.")
+                        .setAutoCancel(true)
+                        .setSmallIcon(R.drawable.alarm)
+                        .setContentIntent(pendingIntent)
+                        .build()
+
+                    notificationManager.notify(notificationID, notification)
+
+                    lifecycleScope.launch(Dispatchers.IO){
+                        model.insert(MyWtList(title,img))
+                        Log.e("TAG","등록됨")
+                    }//비동기로 구현
+
+                }
+                else{
+                    Toast.makeText(this,"이미 추가한 웹툰 입니다.",Toast.LENGTH_SHORT).show()
+                }
+
+                finish()
+
+            }, 100)
+            //몇초뒤 실행
+
         }
 
 

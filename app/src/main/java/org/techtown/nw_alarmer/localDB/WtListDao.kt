@@ -3,6 +3,7 @@ package org.techtown.nw_alarmer.localDB
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import org.techtown.nw_alarmer.WTData
+import java.util.concurrent.Flow
 
 @Dao
 interface WtListDao {
@@ -18,5 +19,7 @@ interface WtListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(myWtList: MyWtList)
     //삽입
+
+
 
 }
