@@ -11,9 +11,12 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.ComputableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.techtown.nw_alarmer.Constants
@@ -42,6 +45,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
         return ViewHolder(binding)
 
+
     }
 
     fun setList(list : List<MyWtList>){
@@ -63,15 +67,6 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
             }
             //작가 제목
 
-
-
-            /*
-            if (item != null) {
-                binding.upText.text = item.upImg
-            }
-            //업 이미지
-            */
-
             binding.deleteButton.setOnClickListener{
                 if (item != null) {
                     mCallback.deleteList(item)
@@ -79,8 +74,13 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
             }//클릭시 이벤트
 
 
-            binding.alarmButton.setOnClickListener {
+            binding.alarmSwitch.setOnCheckedChangeListener{CompoundButton, onSwitch ->
 
+
+                if(onSwitch){
+
+                    Toast.makeText(itemView.context,"알림을 설정합니다.",Toast.LENGTH_SHORT).show()
+                /*
                 //알람 구현
                 val intent = Intent(itemView.context, MainActivity::class.java)
 
@@ -104,6 +104,15 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                     .build()
 
                 notificationManager.notify(notificationID, notification)
+                */
+                }
+                else{
+
+                    Toast.makeText(itemView.context,"알림 설정을 종료합니다.",Toast.LENGTH_SHORT).show()
+                }
+
+
+
 
             }//클릭시 알람 이벤트
 
@@ -114,6 +123,8 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
         }
 
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
