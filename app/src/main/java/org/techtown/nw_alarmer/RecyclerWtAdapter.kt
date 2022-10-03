@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.wt_view.view.*
@@ -56,6 +57,13 @@ class RecyclerWtAdapter (private val items: ArrayList<WTData>,val context : Cont
 
            binding.webTitle.text = item.title
            //작가 제목
+
+           if(item.up.equals("휴재"))
+               binding.upText.setTextColor(ContextCompat.getColor(context,R.color.gray))
+           //휴재 인경우 Gray로 색깔 변경
+           else
+               binding.upText.setTextColor(ContextCompat.getColor(context,R.color.red))
+
 
            binding.upText.text = item.up
 
