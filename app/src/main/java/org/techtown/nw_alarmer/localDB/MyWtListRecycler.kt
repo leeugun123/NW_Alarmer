@@ -105,8 +105,10 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                 notificationManager.notify(notificationID, notification)
                 */
+
                 }
                 else{
+
 
                     Toast.makeText(itemView.context,"알림 설정을 종료합니다.",Toast.LENGTH_SHORT).show()
                 }
