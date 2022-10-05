@@ -18,10 +18,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ComputableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.work.*
 import com.bumptech.glide.Glide
 import org.techtown.nw_alarmer.BackgroundAlarmWorker.AlarmWorker
 import org.techtown.nw_alarmer.Constants
@@ -29,6 +26,7 @@ import org.techtown.nw_alarmer.MainActivity
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.databinding.MywtViewBinding
 import org.techtown.nw_alarmer.databinding.WtViewBinding
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
@@ -86,40 +84,20 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                     Toast.makeText(itemView.context,"알림을 설정 ON",Toast.LENGTH_SHORT).show()
 
-                    val uploadWorkRequest: WorkRequest =
-                        OneTimeWorkRequestBuilder<AlarmWorker>()
-                            // Additional configuration
+                    val uploadWorkRequest = PeriodicWorkRequestBuilder<AlarmWorker>(24, TimeUnit.HOURS)
+                        /*
+                        .setConstraints(Constraints.Builder()
+                            .setRequiresCharging(true) //충전하고 있을 때 실행
+                            .build()
+                        ) */
+                        // Additional configuration
                             .build()
                     //일회성 작업
 
-                    WorkManager.getInstance(itemView.context).enqueue(uploadWorkRequest)
+                    WorkManager.getInstance(itemView.context).enqueueUniquePeriodicWork("sendLogs",
+                        ExistingPeriodicWorkPolicy.KEEP,uploadWorkRequest)
 
 
-                /*
-                //알람 구현
-                val intent = Intent(itemView.context, MainActivity::class.java)
-
-                val notificationManager = itemView.context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                val notificationID = Random.nextInt()
-                //랜덤으로 ID 생성
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    createNotificationChannel(notificationManager)
-                }
-
-                val pendingIntent =
-                    PendingIntent.getActivity(itemView.context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-                val notification = NotificationCompat.Builder(itemView.context, Constants.CHANNEL_ID)
-                    .setContentTitle(item?.wtTitle.toString())
-                    .setContentText("웹툰이 업데이트 되었습니다..")
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.alarm)
-                    .setContentIntent(pendingIntent)
-                    .build()
-
-                notificationManager.notify(notificationID, notification)
-                */
 
                 }
                 else{
