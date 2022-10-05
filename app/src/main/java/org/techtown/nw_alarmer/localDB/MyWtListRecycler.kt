@@ -8,6 +8,7 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,22 +18,29 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ComputableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.withContext
 import org.techtown.nw_alarmer.BackgroundAlarmWorker.AlarmWorker
 import org.techtown.nw_alarmer.Constants
 import org.techtown.nw_alarmer.MainActivity
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.databinding.MywtViewBinding
 import org.techtown.nw_alarmer.databinding.WtViewBinding
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
 
     private val items = ArrayList<MyWtList>()
     private val mCallback = listener
+
+    //lateinit var model : WTViewModel
 
     override fun getItemCount(): Int = items.size
 
@@ -46,15 +54,19 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
         val binding = MywtViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
+       // model = ViewModelProvider(parent.context.applicationContext).get(WTViewModel::class.java)
+        //model 업데이트
+
         return ViewHolder(binding)
 
 
     }
 
-    fun setList(list : List<MyWtList>){
+    fun setList(list : List<MyWtList>) {
         items.clear()
         items.addAll(list)
     }
+
 
     //  각 항목에 필요한 기능을 구현
     inner class ViewHolder(private val binding : MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -76,34 +88,47 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 }
             }//클릭시 이벤트
 
+            val on : Boolean? = item?.wtOn
+
+
+            if(on == true){
+                binding.alarmSwitch.isChecked = true
+                //Log.e("TAG", "체크되어 있는 상태입니다.")
+            }
+            //알람이 체크되어있는 경우 체크 상태로 표시
 
             binding.alarmSwitch.setOnCheckedChangeListener{CompoundButton, onSwitch ->
 
 
                 if(onSwitch){
 
-                    Toast.makeText(itemView.context,"알림을 설정 ON",Toast.LENGTH_SHORT).show()
-
-                    val uploadWorkRequest = PeriodicWorkRequestBuilder<AlarmWorker>(24, TimeUnit.HOURS)
-                        /*
-                        .setConstraints(Constraints.Builder()
-                            .setRequiresCharging(true) //충전하고 있을 때 실행
-                            .build()
-                        ) */
-                        // Additional configuration
-                            .build()
-                    //일회성 작업
-
-                    WorkManager.getInstance(itemView.context).enqueueUniquePeriodicWork("sendLogs",
-                        ExistingPeriodicWorkPolicy.KEEP,uploadWorkRequest)
+                    Toast.makeText(itemView.context,"알림 ON",Toast.LENGTH_SHORT).show()
 
 
+                            val searchWorkRequest = PeriodicWorkRequestBuilder<AlarmWorker>(5, TimeUnit.SECONDS)//시간 설정
+                                /*
+                                .setConstraints(Constraints.Builder()
+                                    .setRequiresCharging(true) //충전하고 있을 때 실행
+                                    .build()
+                                ) */
+                                // Additional configuration
+                                .build()
+                            //일회성 작업
 
+                            WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
+
+
+                    /*
+                    Timer().scheduleAtFixedRate( object : TimerTask() {
+                        override fun run() {
+
+                        }
+                    }, 0, 10000)
+                    */
                 }
                 else{
+                    Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
 
-
-                    Toast.makeText(itemView.context,"알림 설정 OFF",Toast.LENGTH_SHORT).show()
                 }
 
 

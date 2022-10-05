@@ -57,10 +57,7 @@ class RegisterActivity : AppCompatActivity() {
             .load(img)
             .into(mBinding .webImg)
 
-
         mBinding.registerButton.setOnClickListener {
-
-
 
                 var exist : Boolean = false
 
@@ -69,7 +66,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     for(i: Int in 0..list.size-1){
                         if(list.get(i).wtTitle.equals(title)) {
-                            Log.e("TAG", "이미 있는 웹툰입니다.!!")
+                            //Log.e("TAG", "이미 있는 웹툰입니다.!!")
                             exist = true
                             break
                         }
@@ -107,8 +104,8 @@ class RegisterActivity : AppCompatActivity() {
                     notificationManager.notify(notificationID, notification)
 
                     lifecycleScope.launch(Dispatchers.IO){
-                        model.insert(MyWtList(title,img))
-                        Log.e("TAG","등록됨")
+                        model.insert(MyWtList(title,img,false))
+                        //Log.e("TAG","등록됨")
                     }//비동기로 구현
 
                 }

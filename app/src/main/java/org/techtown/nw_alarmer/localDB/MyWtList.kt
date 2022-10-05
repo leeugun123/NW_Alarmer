@@ -13,8 +13,11 @@ data class MyWtList(
 
     @ColumnInfo(name = "wtImg")
     var wtImg : String?,
-    //var upImg : String?,
 
+    @ColumnInfo(name = "wtOn")
+    val wtOn : Boolean?
+
+    //?는 null 값을 허용함을 의미
 ){
     @PrimaryKey(autoGenerate = true) var id : Int = 0
 }

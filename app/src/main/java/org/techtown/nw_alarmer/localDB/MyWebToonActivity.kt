@@ -21,10 +21,6 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
         mBinding = ActivityMyWebToonBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        adapter = MyWtListRecycler(this)
-
-        mBinding?.mylistView?.adapter = adapter
-
         initRecyclerView()
 
         model = ViewModelProvider(this).get(WTViewModel::class.java)
@@ -36,7 +32,7 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
                 adapter.setList(lists)
                 adapter.notifyDataSetChanged()
 
-                Log.e("TAG","실행은 되는데...??ㄹㄷㄷㄷㄷㄻㅈㄷㄹㅈㅁㄹㄷㅈㅁㄻㅈㄻㅈㄹㅈㅁㄹㅈㅁㄷㄹㅈㄷㅁㄹ")
+                //Log.e("TAG","실행은 되는데...??ㄹㄷㄷㄷㄷㄻㅈㄷㄹㅈㅁㄹㄷㅈㅁㄻㅈㄻㅈㄹㅈㅁㄹㅈㅁㄷㄹㅈㄷㅁㄹ")
 
             }
         }
