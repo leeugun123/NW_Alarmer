@@ -49,14 +49,6 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
             //Work
 
 
-
-
-
-
-
-
-
-
             //알람 구현
             val intent = Intent(applicationContext, MainActivity::class.java)
 
