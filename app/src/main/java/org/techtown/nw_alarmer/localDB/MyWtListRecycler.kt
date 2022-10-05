@@ -18,7 +18,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ComputableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.bumptech.glide.Glide
+import org.techtown.nw_alarmer.BackgroundAlarmWorker.AlarmWorker
 import org.techtown.nw_alarmer.Constants
 import org.techtown.nw_alarmer.MainActivity
 import org.techtown.nw_alarmer.R
@@ -79,7 +84,17 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                 if(onSwitch){
 
-                    Toast.makeText(itemView.context,"알림을 설정합니다.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(itemView.context,"알림을 설정 ON",Toast.LENGTH_SHORT).show()
+
+                    val uploadWorkRequest: WorkRequest =
+                        OneTimeWorkRequestBuilder<AlarmWorker>()
+                            // Additional configuration
+                            .build()
+                    //일회성 작업
+
+                    WorkManager.getInstance(itemView.context).enqueue(uploadWorkRequest)
+
+
                 /*
                 //알람 구현
                 val intent = Intent(itemView.context, MainActivity::class.java)
@@ -110,7 +125,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 else{
 
 
-                    Toast.makeText(itemView.context,"알림 설정을 종료합니다.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(itemView.context,"알림 설정 OFF",Toast.LENGTH_SHORT).show()
                 }
 
 
