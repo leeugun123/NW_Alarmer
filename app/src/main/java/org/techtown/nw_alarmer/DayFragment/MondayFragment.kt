@@ -112,7 +112,7 @@ class MondayFragment : Fragment() {
                 else if(up.equals("ico_break"))
                     up = "휴재"
 
-                Log.e("TAG", up)
+               // Log.e("TAG", up)
 
 
                 webToonlist.add(WTData(img,title,up))

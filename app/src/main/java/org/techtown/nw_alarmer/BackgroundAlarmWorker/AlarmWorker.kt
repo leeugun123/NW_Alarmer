@@ -18,9 +18,7 @@ import org.techtown.nw_alarmer.Constants
 import org.techtown.nw_alarmer.MainActivity
 import org.techtown.nw_alarmer.localDB.ListDatabase
 import org.techtown.nw_alarmer.localDB.MyWtList
-import org.techtown.nw_alarmer.localDB.WTViewModel
 import org.techtown.nw_alarmer.localDB.WtListDao
-import java.util.*
 import kotlin.random.Random
 import org.techtown.nw_alarmer.R
 
@@ -37,6 +35,7 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
 
 
+
     override fun doWork(): Result{
 
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
@@ -45,7 +44,7 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
             var mylist : LiveData<List<MyWtList>> = wtlistDao.getList()
 
-            //알람 가져오기 구현
+            //html 파싱하여 구현하기
             //Work
 
 
