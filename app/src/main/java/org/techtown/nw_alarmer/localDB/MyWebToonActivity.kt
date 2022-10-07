@@ -39,9 +39,6 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
 
 
 
-
-
-
     }
 
     private fun initRecyclerView(){
@@ -57,5 +54,14 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
                 model.delete(list)
             }
     }
+
+    override fun updateList(list: MyWtList) {
+
+        lifecycleScope.launch(Dispatchers.IO){
+            model.update(list)
+        }
+
+    }
+
 
 }

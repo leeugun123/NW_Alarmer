@@ -40,11 +40,10 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
     private val items = ArrayList<MyWtList>()
     private val mCallback = listener
 
-    //lateinit var model : WTViewModel
-
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: MyWtListRecycler.ViewHolder, position: Int) {
+
 
         holder.bind(items[position])
 
@@ -53,10 +52,6 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val binding = MywtViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
-       // model = ViewModelProvider(parent.context.applicationContext).get(WTViewModel::class.java)
-        //model 업데이트
-
         return ViewHolder(binding)
 
 
@@ -72,7 +67,6 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
     inner class ViewHolder(private val binding : MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : MyWtList?) {
-
             Glide.with(itemView.context)
                 .load(item?.wtImg)
                 .into(binding.imgUserIcon)
@@ -88,8 +82,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 }
             }//클릭시 이벤트
 
-            val on : Boolean? = item?.wtOn
-
+            var on : Boolean? = item?.wtOn
 
             if(on == true){
                 binding.alarmSwitch.isChecked = true
@@ -99,24 +92,13 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
             binding.alarmSwitch.setOnCheckedChangeListener{CompoundButton, onSwitch ->
 
-
                 if(onSwitch){
 
                     Toast.makeText(itemView.context,"알림 ON",Toast.LENGTH_SHORT).show()
 
-
-                            val searchWorkRequest = PeriodicWorkRequestBuilder<AlarmWorker>(5, TimeUnit.SECONDS)//시간 설정
-                                /*
-                                .setConstraints(Constraints.Builder()
-                                    .setRequiresCharging(true) //충전하고 있을 때 실행
-                                    .build()
-                                ) */
-                                // Additional configuration
-                                .build()
+                            val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
                             //일회성 작업
-
                             WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
-
 
                     /*
                     Timer().scheduleAtFixedRate( object : TimerTask() {
@@ -125,14 +107,20 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                         }
                     }, 0, 10000)
                     */
+                    //10초마다 주기적으로 반복
+
+                    item?.let { mCallback.updateList(it) }
+                    //스위치 상태 업데이트
+
                 }
                 else{
                     Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
+                    //백그라운드 종료하는 코드 구현
+
+                    item?.let { mCallback.updateList(it) }
+                    //스위치 상태 업데이트
 
                 }
-
-
-
 
             }//클릭시 알람 이벤트
 
