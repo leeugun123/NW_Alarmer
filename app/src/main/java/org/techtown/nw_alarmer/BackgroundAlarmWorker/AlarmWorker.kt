@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.BackgroundAlarmWorker
 
+import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -21,20 +22,12 @@ import org.techtown.nw_alarmer.localDB.MyWtList
 import org.techtown.nw_alarmer.localDB.WtListDao
 import kotlin.random.Random
 import org.techtown.nw_alarmer.R
+import org.techtown.nw_alarmer.localDB.WTRepository
 
 class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params){
 
-    private val wtlistDao : WtListDao
-
-    init {
-
-        var db = ListDatabase.getInstance(appContext)
-        wtlistDao = db!!.wtListDao()
-
-    }//db 초기화 및 접근
-
-
-
+    private val repository = WTRepository(appContext as Application)
+    //repo에서 접근
 
     override fun doWork(): Result{
 
@@ -42,35 +35,12 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
         return try {
 
-            var mylist : LiveData<List<MyWtList>> = wtlistDao.getList()
+            val wtLists = repository.getAll()
+            //레포에서 현재 데이터 가져오기
 
-            //html 파싱하여 구현하기
-            //Work
+            callAlarm()
+            //알람 울리기
 
-
-            //알람 구현
-            val intent = Intent(applicationContext, MainActivity::class.java)
-
-            val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            val notificationID = Random.nextInt()
-            //랜덤으로 ID 생성
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel(notificationManager)
-            }
-
-            val pendingIntent =
-                PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-            val notification = NotificationCompat.Builder(applicationContext, Constants.CHANNEL_ID)
-                .setContentTitle("알람 시작")
-                .setContentText("웹툰이 업데이트 되었습니다..")
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.alarm)
-                .setContentIntent(pendingIntent)
-                .build()
-
-            notificationManager.notify(notificationID, notification)
 
             Log.e(TAG, "백그라운드 작업 성공")
 
@@ -86,6 +56,32 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
 
     }//백그라운드에서 동작
+
+    private fun callAlarm() {
+
+        val intent = Intent(applicationContext, MainActivity::class.java)
+
+        val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationID = Random.nextInt()
+        //랜덤으로 ID 생성
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel(notificationManager)
+        }
+
+        val pendingIntent =
+            PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notification = NotificationCompat.Builder(applicationContext, Constants.CHANNEL_ID)
+            .setContentTitle("알람 시작")
+            .setContentText("웹툰이 업데이트 되었습니다..")
+            .setAutoCancel(true)
+            .setSmallIcon(R.drawable.alarm)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        notificationManager.notify(notificationID, notification)
+    }//알람 구현
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
