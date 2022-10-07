@@ -1,6 +1,7 @@
 package org.techtown.nw_alarmer.localDB
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import org.techtown.nw_alarmer.WTData
 
@@ -32,6 +33,7 @@ class WTRepository (application: Application){
 
     fun update(list : MyWtList){
         wtlistDao.updateList(list)
+        Log.e("TAG","레포에서도 업데이트 됨.")
     }//업데이트
 
 

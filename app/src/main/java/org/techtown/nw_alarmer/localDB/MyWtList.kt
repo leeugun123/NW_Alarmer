@@ -7,6 +7,8 @@ import org.techtown.nw_alarmer.WTData
 
 @Entity(tableName = "MyWtList")
 data class MyWtList(
+    @PrimaryKey(autoGenerate = true) var id : Long,
+    //key Id, update를 위한 id field 값 추가
 
     @ColumnInfo(name = "wtTitle")
     var wtTitle : String?,
@@ -18,6 +20,4 @@ data class MyWtList(
     val wtOn : Boolean?
 
     //?는 null 값을 허용함을 의미
-){
-    @PrimaryKey(autoGenerate = true) var id : Int = 0
-}
+)

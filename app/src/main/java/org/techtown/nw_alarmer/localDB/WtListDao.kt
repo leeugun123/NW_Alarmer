@@ -16,7 +16,8 @@ interface WtListDao {
     fun deleteList(list : MyWtList)
     //삭제
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    // OnConflictStrategy.IGNORE = 동일한 아이디가 있을 시 무시
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertList(myWtList: MyWtList)
     //삽입
 

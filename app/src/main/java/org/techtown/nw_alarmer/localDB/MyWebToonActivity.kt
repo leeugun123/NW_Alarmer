@@ -16,6 +16,7 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
     private lateinit var adapter : MyWtListRecycler
     private lateinit var model : WTViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMyWebToonBinding.inflate(layoutInflater)
@@ -32,11 +33,10 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
                 adapter.setList(lists)
                 adapter.notifyDataSetChanged()
 
-                //Log.e("TAG","실행은 되는데...??ㄹㄷㄷㄷㄷㄻㅈㄷㄹㅈㅁㄹㄷㅈㅁㄻㅈㄻㅈㄹㅈㅁㄹㅈㅁㄷㄹㅈㄷㅁㄹ")
+                Log.e("TAG","데이터 감지")
 
             }
         }
-
 
 
     }
@@ -50,15 +50,19 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
     }
 
     override fun deleteList(list: MyWtList) {
+
             lifecycleScope.launch(Dispatchers.IO){
                 model.delete(list)
+                Log.e("TAG","액티비티에서 삭제")
             }
+
     }
 
     override fun updateList(list: MyWtList) {
 
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             model.update(list)
+            Log.e("TAG","액티비티에서 update")
         }
 
     }

@@ -82,30 +82,9 @@ class RegisterActivity : AppCompatActivity() {
 
                     Toast.makeText(this,"등록되었습니다.",Toast.LENGTH_SHORT).show()
 
-                    //알람 구현
-                    val intent = Intent(this,MainActivity::class.java)
-                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                    val notificationID = Random.nextInt()
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        createNotificationChannel(notificationManager)
-                    }
-
-
-                    val pendingIntent = getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-                    val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                        .setContentTitle(title)
-                        .setContentText("웹툰이 등록되었습니다.")
-                        .setAutoCancel(true)
-                        .setSmallIcon(R.drawable.alarm)
-                        .setContentIntent(pendingIntent)
-                        .build()
-
-                    notificationManager.notify(notificationID, notification)
-
                     lifecycleScope.launch(Dispatchers.IO){
-                        model.insert(MyWtList(title,img,false))
-                        //Log.e("TAG","등록됨")
+                        model.insert(MyWtList(0,title,img,wtOn = true))
+                        //id값은 일단 0으로 둔다.
                     }//비동기로 구현
 
                 }

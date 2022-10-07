@@ -1,6 +1,7 @@
 package org.techtown.nw_alarmer.localDB
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 
 class WTViewModel (application: Application) : AndroidViewModel(application){
@@ -22,6 +23,7 @@ class WTViewModel (application: Application) : AndroidViewModel(application){
 
     fun update(myList: MyWtList){
         repository.update(myList)
+        Log.e("TAG","viewModel에서 update")
     }
 
 
