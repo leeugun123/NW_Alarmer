@@ -20,6 +20,10 @@ class WTViewModel (application: Application) : AndroidViewModel(application){
         repository.delete(myList)
     }
 
+    fun update(myList: MyWtList){
+        repository.update(myList)
+    }
+
 
 
 

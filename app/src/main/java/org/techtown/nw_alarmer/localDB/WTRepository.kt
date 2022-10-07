@@ -26,10 +26,13 @@ class WTRepository (application: Application){
         return wtlistDao.getList()
     }
 
+    fun delete(list : MyWtList) {
+        wtlistDao.deleteList(list)
+    }
 
-     fun delete(list : MyWtList) {
-         wtlistDao.deleteList(list)
-     }
+    fun update(list : MyWtList){
+        wtlistDao.updateList(list)
+    }//업데이트
 
 
 

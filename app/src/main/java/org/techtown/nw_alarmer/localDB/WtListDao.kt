@@ -20,6 +20,9 @@ interface WtListDao {
     fun insertList(myWtList: MyWtList)
     //삽입
 
+    @Update
+    fun updateList(myWtList: MyWtList)
+    //업데이트
 
 
 }

@@ -86,9 +86,6 @@ dependencies {
     // 코틀린을 쓰는 경우 ,백그라운드 작업
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
-    //viewModel 초기화 하기 위한 모듈 세팅
-    implementation 'androidx.activity:activity-ktx:1.2.2'
-    implementation 'androidx.fragment:fragment-ktx:1.3.3'
 
 
 
