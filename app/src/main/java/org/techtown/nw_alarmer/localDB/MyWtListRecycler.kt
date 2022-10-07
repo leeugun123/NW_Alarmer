@@ -116,7 +116,8 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                         var updateList = MyWtList(item.id,item.wtTitle,item.wtImg,true)
                         mCallback.updateList(updateList)
-                        Log.e("TAG","recycler에서 들어감")
+                        Toast.makeText(itemView.context,"알림 ON",Toast.LENGTH_SHORT).show()
+
                     }//스위치 상태 업데이트
 
                 }
