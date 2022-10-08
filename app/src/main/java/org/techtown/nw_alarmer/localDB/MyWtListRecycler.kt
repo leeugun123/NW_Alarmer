@@ -97,16 +97,22 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 if(onSwitch){
 
 
-                            Timer().scheduleAtFixedRate( object : TimerTask() {
-                                override fun run() {
+                    val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
+                    //일회성 작업
+                    WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
 
-                                    val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
-                                    //일회성 작업
-                                    WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
 
-                               }
-                           }, 0, 10000)
+                    /*
+                    Timer().scheduleAtFixedRate( object : TimerTask() {
 
+                        override fun run() {
+
+
+
+                        }
+                                                                      }, 0, 10000)
+
+                    */
 
                     //10초마다 주기적으로 반복
 

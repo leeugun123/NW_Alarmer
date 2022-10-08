@@ -13,21 +13,24 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LiveData
 import androidx.work.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 import org.techtown.nw_alarmer.Constants
+import org.techtown.nw_alarmer.JsoupCrawlerExample
 import org.techtown.nw_alarmer.MainActivity
-import org.techtown.nw_alarmer.localDB.ListDatabase
-import org.techtown.nw_alarmer.localDB.MyWtList
-import org.techtown.nw_alarmer.localDB.WtListDao
 import kotlin.random.Random
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.localDB.WTRepository
 
 class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params){
 
-    private val repository = WTRepository(appContext as Application)
+    //private val repository = WTRepository(appContext as Application)
     //repo에서 접근
+
+    private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
+    //웹툰 url
 
     override fun doWork(): Result{
 
@@ -35,12 +38,11 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
         return try {
 
-            val wtLists = repository.getAll()
-            //레포에서 현재 데이터 가져오기
+            //val wtLists = repository.getAll()
+            //viewModel에서 접근하는 방법은? 또 콜백함수로 구현해야 하는가??
 
-            callAlarm()
-            //알람 울리기
-
+            parsing()
+            //파싱하기
 
             Log.e(TAG, "백그라운드 작업 성공")
 
@@ -56,6 +58,71 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
 
     }//백그라운드에서 동작
+
+    private fun parsing() {
+        //레포에서 현재 데이터 가져오기
+
+        val scope = GlobalScope
+
+        scope.launch {
+
+            //SSL 체크
+            if(webToonUrl.indexOf("https://") >= 0){
+                JsoupCrawlerExample.setSSL();
+            }//https:로 시작하는경우 setSSL() 실행하여 우회
+
+            val doc = Jsoup.connect(webToonUrl).get()
+            //HTML 가져오기
+
+            for(i in 0..6){
+
+                val dayList = doc.select("div.col_inner")[i].select("li")
+
+                for(j in dayList){
+
+                    var wtIntel = j.select("img")//한 웹툰의 정보들
+
+                    var title = ""
+                    var img = ""
+                    var up = ""
+
+                    var upIntel = j.select("em")
+                    //업데이트 정보
+
+                    for(k in wtIntel){
+
+                        title = k.absUrl("title").replace("https://comic.naver.com/webtoon/","")
+                        //Log.e("TAG",title)
+
+                    }//웹툰 제목 가져오기
+
+                    for(k in wtIntel){
+
+                        img = k.absUrl("src")
+                        //Log.e("TAG",img)
+
+                    }//웹툰 img 가져오기
+
+                    for(k in upIntel){
+                        up = k.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
+                    }//웹툰 up 정보 가져오기
+
+                    if(up.equals("ico_updt"))
+                        up = "Up"
+                    else if(up.equals("ico_break"))
+                        up = "휴재"
+
+                    Log.e("TAG",title+" "+img+" "+up)
+
+
+                }
+
+            }//월요일부터 일요일까지 가져오기
+
+
+        }
+
+    }
 
     private fun callAlarm() {
 
