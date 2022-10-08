@@ -84,11 +84,11 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
             var on : Boolean? = item?.wtOn
 
-            Log.e("TAG", on.toString())
+            //Log.e("TAG", on.toString())
 
             if(on == true){
                 binding.alarmSwitch.isChecked = true
-                Log.e("TAG", "체크되어 있는 상태입니다.")
+                //Log.e("TAG", "체크되어 있는 상태입니다.")
             }
             //알람이 체크되어있는 경우 체크 상태로 표시
 
@@ -96,20 +96,18 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                 if(onSwitch){
 
-                    /*
-                    Toast.makeText(itemView.context,"알림 ON",Toast.LENGTH_SHORT).show()
 
-                            val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
-                            //일회성 작업
-                            WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
+                            Timer().scheduleAtFixedRate( object : TimerTask() {
+                                override fun run() {
+
+                                    val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
+                                    //일회성 작업
+                                    WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
+
+                               }
+                           }, 0, 10000)
 
 
-                    Timer().scheduleAtFixedRate( object : TimerTask() {
-                        override fun run() {
-
-                        }
-                    }, 0, 10000)
-                    */
                     //10초마다 주기적으로 반복
 
                     if (item != null) {
@@ -125,6 +123,10 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                     Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
                     //백그라운드 종료하는 코드 구현
+
+
+
+
 
                     if (item != null) {
                         mCallback.updateList(MyWtList(item.id,item.wtTitle,item.wtImg,false))

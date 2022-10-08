@@ -17,6 +17,7 @@ class WTRepository (application: Application){
         wtlistDao = db!!.wtListDao()
         wtList = db.wtListDao().getList()
 
+
     }
 
     fun insert(list : MyWtList){
@@ -33,7 +34,7 @@ class WTRepository (application: Application){
 
     fun update(list : MyWtList){
         wtlistDao.updateList(list)
-        Log.e("TAG","레포에서도 업데이트 됨.")
+        //Log.e("TAG","레포에서도 업데이트 됨.")
     }//업데이트
 
 
