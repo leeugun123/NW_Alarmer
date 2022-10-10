@@ -14,6 +14,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
@@ -29,27 +30,38 @@ import kotlin.random.Random
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.localDB.*
 
-class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params),
-    ViewModelStoreOwner {
+class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params){
 
 
     private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
     //웹툰 url
 
+    private val wtlistDao : WtListDao
     //액티비티에서 frgment에서 접근하는 것
-    private lateinit var model : WTViewModel
 
-    @SuppressLint("WrongThread")
+    private val myList : LiveData<List<MyWtList>>
+
+    init {
+
+        var db = ListDatabase.getInstance(appContext)
+
+        wtlistDao = db!!.wtListDao()
+        myList = db.wtListDao().getList()
+
+    }//직접 DB로 접근
+
+
+
     override fun doWork(): Result{
 
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
 
-        model = ViewModelProvider(this).get(WTViewModel::class.java)
 
+        //백그라운드에서 어떻게 DB에 접근하는가?
         //백그라운드에서 viewModel 접근
 
-        return try {
 
+        return try {
 
 
             parsing()
@@ -87,8 +99,6 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
             //HTML 가져오기
 
 
-
-
             for(i in 0..6){
 
                 val dayList = doc.select("div.col_inner")[i].select("li")
@@ -103,20 +113,12 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
                     var upIntel = j.select("em")
                     //업데이트 정보
-
                     for(k in wtIntel){
 
                         title = k.absUrl("title").replace("https://comic.naver.com/webtoon/","")
                         //Log.e("TAG",title)
 
                     }//웹툰 제목 가져오기
-
-                    for(k in wtIntel){
-
-                        img = k.absUrl("src")
-                        //Log.e("TAG",img)
-
-                    }//웹툰 img 가져오기
 
                     for(k in upIntel){
                         up = k.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
@@ -127,7 +129,7 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
                     else if(up.equals("ico_break"))
                         up = "휴재"
 
-                    Log.e("TAG",title+" "+img+" "+up)
+
 
 
                 }
@@ -175,9 +177,6 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
         notificationManager.createNotificationChannel(channel)
     }
 
-    override fun getViewModelStore(): ViewModelStore {
-        TODO("Not yet implemented")
-    }
 
 
 }
