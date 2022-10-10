@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.BackgroundAlarmWorker
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,7 +14,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.*
+import com.bumptech.glide.Glide.init
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -22,24 +27,30 @@ import org.techtown.nw_alarmer.JsoupCrawlerExample
 import org.techtown.nw_alarmer.MainActivity
 import kotlin.random.Random
 import org.techtown.nw_alarmer.R
-import org.techtown.nw_alarmer.localDB.WTRepository
+import org.techtown.nw_alarmer.localDB.*
 
-class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params){
+class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params),
+    ViewModelStoreOwner {
 
-    //private val repository = WTRepository(appContext as Application)
-    //repo에서 접근
 
     private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
     //웹툰 url
 
+    //액티비티에서 frgment에서 접근하는 것
+    private lateinit var model : WTViewModel
+
+    @SuppressLint("WrongThread")
     override fun doWork(): Result{
 
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
 
+        model = ViewModelProvider(this).get(WTViewModel::class.java)
+
+        //백그라운드에서 viewModel 접근
+
         return try {
 
-            //val wtLists = repository.getAll()
-            //viewModel에서 접근하는 방법은? 또 콜백함수로 구현해야 하는가??
+
 
             parsing()
             //파싱하기
@@ -59,6 +70,7 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
     }//백그라운드에서 동작
 
+
     private fun parsing() {
         //레포에서 현재 데이터 가져오기
 
@@ -73,6 +85,9 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
+
+
+
 
             for(i in 0..6){
 
@@ -159,5 +174,10 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
         }
         notificationManager.createNotificationChannel(channel)
     }
+
+    override fun getViewModelStore(): ViewModelStore {
+        TODO("Not yet implemented")
+    }
+
 
 }
