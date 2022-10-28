@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.parsingClass
 
+import android.util.Log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -8,13 +9,14 @@ import org.techtown.nw_alarmer.WTData
 
 class Parsing {
 
-    private val webToonlist : ArrayList<WTData> = ArrayList()
     private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
     //웹툰 url
 
-    public fun doTask(day : Int) {
+    public fun doTask(day : Int , list : ArrayList<WTData>) : ArrayList<WTData> {
 
-        webToonlist.clear()
+        Log.e("TAG", day.toString())
+
+        list.clear()
 
         val scope = GlobalScope
 
@@ -29,7 +31,7 @@ class Parsing {
             //HTML 가져오기
 
             val saturdayList = doc.select("div.col_inner")[day].select("li")
-            //화요일 전체 목록 가져오기
+            //요일 전체 목록 가져오기
 
             for (e in saturdayList) {
 
@@ -65,13 +67,13 @@ class Parsing {
                 else if(up.equals("ico_break"))
                     up = "휴재"
 
-
-                webToonlist.add(WTData(img,title,up))
+                list.add(WTData(img,title,up))
             }
 
 
         }//비동기 적용
 
+        return list
     }
 
 

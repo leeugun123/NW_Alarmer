@@ -40,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
 
     lateinit var model : WTViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding  = ActivityRegisterBinding.inflate(layoutInflater)
@@ -73,6 +74,8 @@ class RegisterActivity : AppCompatActivity() {
                     }
 
                 }
+
+
 
 
             //deprecated 되어 있다고 나옴

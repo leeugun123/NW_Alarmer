@@ -39,6 +39,7 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
         }
 
 
+
     }
 
     private fun initRecyclerView(){

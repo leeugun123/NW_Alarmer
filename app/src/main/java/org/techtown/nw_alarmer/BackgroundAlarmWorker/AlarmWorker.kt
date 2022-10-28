@@ -11,16 +11,17 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.*
 import androidx.work.*
 import com.bumptech.glide.Glide.init
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.techtown.nw_alarmer.Constants
@@ -36,38 +37,25 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
     private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
     //웹툰 url
 
-    private val wtlistDao : WtListDao
-    //액티비티에서 frgment에서 접근하는 것
-
-    private val myList : LiveData<List<MyWtList>>
-
-    init {
-
-        var db = ListDatabase.getInstance(appContext)
-
-        wtlistDao = db!!.wtListDao()
-        myList = db.wtListDao().getList()
-
-    }//직접 DB로 접근
-
-
-
     override fun doWork(): Result{
 
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
 
-
         //백그라운드에서 어떻게 DB에 접근하는가?
         //백그라운드에서 viewModel 접근
 
-
         return try {
 
-
-            parsing()
+            //parsing()
             //파싱하기
 
-            Log.e(TAG, "백그라운드 작업 성공")
+            Handler().postDelayed({
+
+                Log.e(TAG, "백그라운드 작업 성공")
+
+            }, 500)
+
+
 
             return Result.success()
             //성공 반환

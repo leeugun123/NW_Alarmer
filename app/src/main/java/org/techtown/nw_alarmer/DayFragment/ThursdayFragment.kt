@@ -16,17 +16,15 @@ import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.RecyclerWtAdapter
 import org.techtown.nw_alarmer.WTData
 import org.techtown.nw_alarmer.databinding.FragmentThursdayBinding
+import org.techtown.nw_alarmer.parsingClass.Parsing
 
 
 class ThursdayFragment : Fragment() {
 
     private var mBinding : FragmentThursdayBinding? = null
 
-    private val webToonlist : ArrayList<WTData> = ArrayList()
+    private var webToonlist : ArrayList<WTData> = ArrayList()
     lateinit var recyclerView : RecyclerView
-
-    private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
-    //웹툰 url
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,7 +32,7 @@ class ThursdayFragment : Fragment() {
         val binding = FragmentThursdayBinding.inflate(layoutInflater)
         mBinding = binding
 
-        doTask()
+        webToonlist = Parsing().doTask(3,webToonlist)
 
     }
 
@@ -57,69 +55,7 @@ class ThursdayFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun doTask() {
 
-        webToonlist.clear()
-
-        val scope = GlobalScope
-
-        scope.launch {
-
-            //SSL 체크
-            if (webToonUrl.indexOf("https://") >= 0) {
-                JsoupCrawlerExample.setSSL();
-            }//https:로 시작하는경우 setSSL() 실행하여 우회
-
-            val doc = Jsoup.connect(webToonUrl).get()
-            //HTML 가져오기
-
-            val mondayList = doc.select("div.col_inner")[3].select("li")
-            //화요일 전체 목록 가져오기
-
-            for (e in mondayList) {
-
-                var wtIntel = e.select("img")//한 웹툰의 정보들
-
-                var title = ""
-                var img = ""
-                var up = ""
-
-                var upIntel = e.select("em")
-                //업데이트 정보
-
-                for (j in wtIntel) {
-
-                    title = j.absUrl("title").replace("https://comic.naver.com/webtoon/", "")
-                    //Log.e("TAG", title)
-
-                }//웹툰 제목 가져오기
-
-                for (j in wtIntel) {
-
-                    img = j.absUrl("src")
-                   // Log.e("TAG", img)
-
-                }//웹툰 img 가져오기
-
-                for(j in upIntel){
-                    up = j.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
-                }//웹툰 up 정보 가져오기
-
-                if(up.equals("ico_updt"))
-                    up = "Up"
-                else if(up.equals("ico_break"))
-                    up = "휴재"
-
-
-
-                webToonlist.add(WTData(img,title,up))
-
-            }
-
-
-        }//비동기 적용
-
-    }
 
 
 }
