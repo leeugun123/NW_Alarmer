@@ -36,9 +36,6 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
         return try {
 
             //callAlarm()
-
-
-
             return Result.success()
             //성공 반환
         }catch (e: Exception){

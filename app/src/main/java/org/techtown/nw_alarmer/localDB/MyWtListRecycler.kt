@@ -24,6 +24,7 @@ import org.techtown.nw_alarmer.Constants
 import org.techtown.nw_alarmer.MainActivity
 import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.databinding.MywtViewBinding
+import org.techtown.nw_alarmer.parsingClass.Parsing
 import java.util.*
 import kotlin.random.Random
 
@@ -57,23 +58,12 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
     //  각 항목에 필요한 기능을 구현
     inner class ViewHolder(private val binding : MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        val handler = Handler()
-
-        val runnable = object : Runnable {
-            override fun run() {
-                Log.e("TAG", "파싱 중 입니다.")
-
-
-
-
-                handler.postDelayed(this, 1000)
-                //1초마다 수행
-
-            }
-        }//백그라운드 작업을 위한 handler 변수
-
-
         fun bind(item : MyWtList?) {
+
+
+
+
+
             Glide.with(itemView.context)
                 .load(item?.wtImg)
                 .into(binding.imgUserIcon)
@@ -99,6 +89,24 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
             binding.alarmSwitch.setOnCheckedChangeListener{CompoundButton, onSwitch ->
 
+                val handler = Handler()
+
+                val runnable = object : Runnable {
+                    override fun run() {
+
+                        Log.e("TAG", "파싱 중 입니다.")
+
+                        if (item != null) {
+                            if(item.wtTitle?.let { Parsing().serach(it) } == true)
+
+                                callAlarm(item.wtTitle!!)
+                        }
+                        //1초마다 수행
+                        handler.postDelayed(this, 1000)
+                    }
+                }//백그라운드 작업을 위한 handler 변수
+
+
                 if(onSwitch){
 
                     /*
@@ -110,9 +118,6 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                     handler.post(runnable)
                     //핸들러 객체를 이용하여 파싱 구현
-
-
-
 
 
                     if (item != null) {
@@ -127,10 +132,10 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 else{
 
                     handler.removeCallbacks(runnable)
+
+
                     Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
                     //백그라운드 종료하는 코드 구현
-
-
 
                     if (item != null) {
                         mCallback.updateList(MyWtList(item.id,item.wtTitle,item.wtImg,false))
@@ -142,7 +147,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
         }
 
-        private fun callAlarm() {
+        private fun callAlarm(title : String) {
 
             val intent = Intent(itemView.context, MainActivity::class.java)
 
@@ -159,7 +164,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
             val notification = NotificationCompat.Builder(itemView.context, Constants.CHANNEL_ID)
                 .setContentTitle("알람 시작")
-                .setContentText("웹툰이 업데이트 되었습니다..")
+                .setContentText(title + "업데이트")
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.alarm)
                 .setContentIntent(pendingIntent)
