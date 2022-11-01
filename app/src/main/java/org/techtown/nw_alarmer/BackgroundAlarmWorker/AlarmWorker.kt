@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.BackgroundAlarmWorker
 
+
 import android.annotation.SuppressLint
 import android.app.Application
 import android.app.NotificationChannel
@@ -11,21 +12,13 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.os.Handler
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import androidx.lifecycle.*
 import androidx.work.*
-import com.bumptech.glide.Glide.init
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 import org.techtown.nw_alarmer.Constants
-import org.techtown.nw_alarmer.JsoupCrawlerExample
 import org.techtown.nw_alarmer.MainActivity
 import kotlin.random.Random
 import org.techtown.nw_alarmer.R
@@ -33,101 +26,30 @@ import org.techtown.nw_alarmer.localDB.*
 
 class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appContext,params){
 
+    private lateinit var model : WTViewModel
 
-    private val webToonUrl = "https://comic.naver.com/webtoon/weekday"
-    //웹툰 url
-
+    @SuppressLint("WrongThread")
     override fun doWork(): Result{
 
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
 
-        //백그라운드에서 어떻게 DB에 접근하는가?
-        //백그라운드에서 viewModel 접근
-
         return try {
 
-            //parsing()
-            //파싱하기
-
-            Handler().postDelayed({
-
-                Log.e(TAG, "백그라운드 작업 성공")
-
-            }, 500)
+            //callAlarm()
 
 
 
             return Result.success()
             //성공 반환
-
         }catch (e: Exception){
-
             Log.e(TAG, "백그라운드 작업 실패")
             Result.failure()
-
         }
 
 
     }//백그라운드에서 동작
 
 
-    private fun parsing() {
-        //레포에서 현재 데이터 가져오기
-
-        val scope = GlobalScope
-
-        scope.launch {
-
-            //SSL 체크
-            if(webToonUrl.indexOf("https://") >= 0){
-                JsoupCrawlerExample.setSSL();
-            }//https:로 시작하는경우 setSSL() 실행하여 우회
-
-            val doc = Jsoup.connect(webToonUrl).get()
-            //HTML 가져오기
-
-
-            for(i in 0..6){
-
-                val dayList = doc.select("div.col_inner")[i].select("li")
-
-                for(j in dayList){
-
-                    var wtIntel = j.select("img")//한 웹툰의 정보들
-
-                    var title = ""
-                    var img = ""
-                    var up = ""
-
-                    var upIntel = j.select("em")
-                    //업데이트 정보
-                    for(k in wtIntel){
-
-                        title = k.absUrl("title").replace("https://comic.naver.com/webtoon/","")
-                        //Log.e("TAG",title)
-
-                    }//웹툰 제목 가져오기
-
-                    for(k in upIntel){
-                        up = k.absUrl("class").replace("https://comic.naver.com/webtoon/", "")
-                    }//웹툰 up 정보 가져오기
-
-                    if(up.equals("ico_updt"))
-                        up = "Up"
-                    else if(up.equals("ico_break"))
-                        up = "휴재"
-
-
-
-
-                }
-
-            }//월요일부터 일요일까지 가져오기
-
-
-        }
-
-    }
 
     private fun callAlarm() {
 
@@ -153,6 +75,7 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
             .build()
 
         notificationManager.notify(notificationID, notification)
+
     }//알람 구현
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -168,3 +91,4 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
 
 
 }
+

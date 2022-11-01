@@ -2,22 +2,30 @@ package org.techtown.nw_alarmer.localDB
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import org.techtown.nw_alarmer.BackgroundAlarmWorker.AlarmWorker
 import org.techtown.nw_alarmer.Constants
+import org.techtown.nw_alarmer.MainActivity
+import org.techtown.nw_alarmer.R
 import org.techtown.nw_alarmer.databinding.MywtViewBinding
 import java.util.*
+import kotlin.random.Random
 
 
 class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
@@ -49,6 +57,22 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
     //  각 항목에 필요한 기능을 구현
     inner class ViewHolder(private val binding : MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        val handler = Handler()
+
+        val runnable = object : Runnable {
+            override fun run() {
+                Log.e("TAG", "파싱 중 입니다.")
+
+
+
+
+                handler.postDelayed(this, 1000)
+                //1초마다 수행
+
+            }
+        }//백그라운드 작업을 위한 handler 변수
+
+
         fun bind(item : MyWtList?) {
             Glide.with(itemView.context)
                 .load(item?.wtImg)
@@ -77,11 +101,17 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
                 if(onSwitch){
 
+                    /*
                     val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
                     //일회성 작업
-
                     WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
                     val handler = Handler(Looper.getMainLooper())
+                    */
+
+                    handler.post(runnable)
+                    //핸들러 객체를 이용하여 파싱 구현
+
+
 
 
 
@@ -96,6 +126,7 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                 }
                 else{
 
+                    handler.removeCallbacks(runnable)
                     Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
                     //백그라운드 종료하는 코드 구현
 
@@ -109,13 +140,38 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
             }//클릭시 알람 이벤트
 
-
-
-
-
         }
 
+        private fun callAlarm() {
+
+            val intent = Intent(itemView.context, MainActivity::class.java)
+
+            val notificationManager = itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationID = Random.nextInt()
+            //랜덤으로 ID 생성
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel(notificationManager)
+            }
+
+            val pendingIntent =
+                PendingIntent.getActivity(itemView.context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+            val notification = NotificationCompat.Builder(itemView.context, Constants.CHANNEL_ID)
+                .setContentTitle("알람 시작")
+                .setContentText("웹툰이 업데이트 되었습니다..")
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.alarm)
+                .setContentIntent(pendingIntent)
+                .build()
+
+            notificationManager.notify(notificationID, notification)
+
+        }//알람 구현
+
     }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package org.techtown.nw_alarmer.localDB
 
+import android.media.CamcorderProfile.getAll
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,6 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
     private lateinit var adapter : MyWtListRecycler
     private lateinit var model : WTViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMyWebToonBinding.inflate(layoutInflater)
@@ -28,6 +28,7 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
         //model 초기화 부분에 의해 초기화 되지 않았음
 
         with(model) {
+
             getAll().observe(this@MyWebToonActivity) { lists ->
 
                 adapter.setList(lists)
@@ -36,7 +37,9 @@ class MyWebToonActivity : AppCompatActivity() , OnItemClick {
                 Log.e("TAG","데이터 감지")
 
             }
+
         }
+
 
 
 

@@ -8,7 +8,7 @@ import java.util.concurrent.Flow
 @Dao
 interface WtListDao {
 
-    @Query("Select * From  MyWtList")
+    @Query("Select * FROM  MyWtList ")
     fun getList() : LiveData<List<MyWtList>>
     //가져오기
 

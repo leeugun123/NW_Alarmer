@@ -23,7 +23,6 @@ class WTViewModel (application: Application) : AndroidViewModel(application){
 
     fun update(myList: MyWtList){
         repository.update(myList)
-        //Log.e("TAG","viewModel에서 update")
     }
 
 
