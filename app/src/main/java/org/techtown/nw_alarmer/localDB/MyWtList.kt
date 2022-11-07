@@ -18,6 +18,7 @@ data class MyWtList(
 
     @ColumnInfo(name = "wtOn")
     val wtOn : Boolean?
+    //파싱이 수행 중인지 확인하는 val
 
-    //?는 null 값을 허용함을 의미
+
 )

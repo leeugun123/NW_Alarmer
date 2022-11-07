@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.techtown.nw_alarmer.BackgroundAlarmWorker.AlarmWorker
 import org.techtown.nw_alarmer.Constants
 import org.techtown.nw_alarmer.MainActivity
@@ -29,7 +32,7 @@ import java.util.*
 import kotlin.random.Random
 
 
-class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>(){
+class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRecycler.ViewHolder>() {
 
     private val items = ArrayList<MyWtList>()
     private val mCallback = listener
@@ -44,25 +47,21 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding = MywtViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = MywtViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
 
     }
 
-    fun setList(list : List<MyWtList>) {
+    fun setList(list: List<MyWtList>) {
         items.clear()
         items.addAll(list)
     }
 
 
     //  각 항목에 필요한 기능을 구현
-    inner class ViewHolder(private val binding : MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: MywtViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item : MyWtList?) {
-
-
-
-
+        fun bind(item: MyWtList?) {
 
             Glide.with(itemView.context)
                 .load(item?.wtImg)
@@ -73,81 +72,39 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
             }
             //작가 제목
 
-            binding.deleteButton.setOnClickListener{
+            binding.deleteButton.setOnClickListener {
                 if (item != null) {
                     mCallback.deleteList(item)
                 }
             }//클릭시 이벤트
 
-            var on : Boolean? = item?.wtOn
 
-            if(on == true){
-                binding.alarmSwitch.isChecked = true
-                //Log.e("TAG", "체크되어 있는 상태입니다.")
+            //백그라운드 작업을 위한 handler 변수
+
+            if (item != null) {
+                if(item.wtOn == true){
+                    item.wtTitle?.let { startParsing(it) }
+                }//돌아가고 있지 않는 경우 돌아가기
             }
-            //알람이 체크되어있는 경우 체크 상태로 표시
 
-            binding.alarmSwitch.setOnCheckedChangeListener{CompoundButton, onSwitch ->
-
-                val handler = Handler()
-
-                val runnable = object : Runnable {
-                    override fun run() {
-
-                        Log.e("TAG", "파싱 중 입니다.")
-
-                        if (item != null) {
-                            if(item.wtTitle?.let { Parsing().serach(it) } == true)
-
-                                callAlarm(item.wtTitle!!)
-
-                        }
-
-                        //1초마다 수행
-                        handler.postDelayed(this, 1000)
-                    }
-                }//백그라운드 작업을 위한 handler 변수
-
-
-                if(onSwitch){
-
-                    /*
-                    val searchWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>().build()
-                    //일회성 작업
-                    WorkManager.getInstance(itemView.context).enqueue(searchWorkRequest)
-                    val handler = Handler(Looper.getMainLooper())
-                    */
-
-                    handler.post(runnable)
-                    //핸들러 객체를 이용하여 파싱 구현
-
-
-                    if (item != null) {
-
-                        var updateList = MyWtList(item.id,item.wtTitle,item.wtImg,true)
-                        mCallback.updateList(updateList)
-                        Toast.makeText(itemView.context,"알림 ON",Toast.LENGTH_SHORT).show()
-
-                    }//스위치 상태 업데이트
-
-                }
-                else{
-
-                    handler.removeCallbacks(runnable)
-
-
-                    Toast.makeText(itemView.context,"알림 OFF",Toast.LENGTH_SHORT).show()
-                    //백그라운드 종료하는 코드 구현
-
-                    if (item != null) {
-                        mCallback.updateList(MyWtList(item.id,item.wtTitle,item.wtImg,false))
-                    }//스위치 상태 업데이트
-
-                }
-
-            }//클릭시 알람 이벤트
 
         }
+
+        private fun startParsing(wtTitle : String){
+
+            val handler = Handler(Looper.getMainLooper())
+
+            val runnable = object : Runnable {
+                override fun run() {
+                    callAlarm(wtTitle)
+                }
+
+            }
+            handler.post(runnable)
+
+        }
+
+
 
         private fun callAlarm(title : String) {
 
@@ -176,21 +133,26 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
 
         }//알람 구현
 
+
+
     }
-
-
 
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
-        val channel = NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
+        val channel = NotificationChannel(
+            Constants.CHANNEL_ID,
+            Constants.CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
             description = "Channel Description"
             enableLights(true)
             lightColor = Color.GREEN
         }
         notificationManager.createNotificationChannel(channel)
     }
+
 
 
 }

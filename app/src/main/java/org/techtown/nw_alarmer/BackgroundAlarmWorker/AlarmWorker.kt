@@ -34,7 +34,6 @@ class AlarmWorker(appContext: Context,params: WorkerParameters) : Worker(appCont
         Log.e("TAG", "백그라운드에서 작업을 수행 중입니다.!!!!")
 
         return try {
-
             //callAlarm()
             return Result.success()
             //성공 반환
