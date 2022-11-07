@@ -100,7 +100,9 @@ class MyWtListRecycler (listener : OnItemClick): RecyclerView.Adapter<MyWtListRe
                             if(item.wtTitle?.let { Parsing().serach(it) } == true)
 
                                 callAlarm(item.wtTitle!!)
+
                         }
+
                         //1초마다 수행
                         handler.postDelayed(this, 1000)
                     }

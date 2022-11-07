@@ -4,6 +4,7 @@ import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -72,6 +73,8 @@ class Parsing {
                 else if(up.equals("ico_break"))
                     up = "휴재"
 
+
+
                 list.add(WTData(img,title,up))
             }
 
@@ -85,10 +88,8 @@ class Parsing {
 
         var upCheck = false
 
-        //비동기 처리
-        val scope = GlobalScope
-
-        scope.launch {
+        //코루틴으로 비동기 구현
+        CoroutineScope(Dispatchers.IO).launch {
 
             //SSL 체크
             if (webToonUrl.indexOf("https://") >= 0) {
@@ -97,6 +98,8 @@ class Parsing {
 
             val doc = Jsoup.connect(webToonUrl).get()
             //HTML 가져오기
+
+
 
             for(i in 0..6){
 
@@ -124,10 +127,10 @@ class Parsing {
                     }//웹툰 up 정보 가져오기
 
                     if(title.equals(myTitle) && up.equals("ico_updt")){
-
                         upCheck = true
                         break
                     }
+
                 }
 
                 if(upCheck) {
@@ -136,15 +139,17 @@ class Parsing {
 
             }
 
-        }//비동기 적용
+        }
 
-        Handler().postDelayed({
-            Log.e("TAG", "지연하겠습니다"+upCheck.toString())
-        }, 3000)
-        //잠시동안 지연
 
-        Log.e("TAG", "실제 반환되는 값"+upCheck.toString())
+       Thread.sleep(3000)
+        //쓰레드 잠시 정지
+        //파싱동안 upCheck를 반환하기 위해 정지시킴
+
+
         return upCheck
+
+
     }
 
 
